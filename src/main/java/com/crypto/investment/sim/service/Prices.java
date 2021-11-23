@@ -38,7 +38,7 @@ public class Prices {
         ETH = coinRepo.save(ETH);
         BTC = coinRepo.save(BTC);
 
-        System.out.println("prices: " + prices.toString());
+        System.out.println("prices: " + prices);
     }
 
     public JSONObject getPrice(String key, String base_currency){
