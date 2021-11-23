@@ -26,22 +26,27 @@ public class Prices {
     @Scheduled(fixedRate = 300000)
     public void get_USD_EUR_ETH_BTC_Prices(){
         JSONObject prices = getPrice("d2f70ed0-47cf-11ec-980b-4f59414803c4", "GBP");
-        double latestUSD = prices.getJSONObject("data").getDouble("USD");
-        double latestEUR = prices.getJSONObject("data").getDouble("EUR");
-        double latestETH = prices.getJSONObject("data").getDouble("ETH");
-        double latestBTC = prices.getJSONObject("data").getDouble("BTC");
+        if (prices != null){
+            double latestUSD = prices.getJSONObject("data").getDouble("USD");
+            double latestEUR = prices.getJSONObject("data").getDouble("EUR");
+            double latestETH = prices.getJSONObject("data").getDouble("ETH");
+            double latestBTC = prices.getJSONObject("data").getDouble("BTC");
 
-        USD.setCurrentPrice(latestUSD);
-        EUR.setCurrentPrice(latestEUR);
-        ETH.setCurrentPrice(latestETH);
-        BTC.setCurrentPrice(latestBTC);
+            //Update Objects
+            USD.setCurrentPrice(latestUSD);
+            EUR.setCurrentPrice(latestEUR);
+            ETH.setCurrentPrice(latestETH);
+            BTC.setCurrentPrice(latestBTC);
 
-        USD = coinRepo.save(USD);
-        EUR = coinRepo.save(EUR);
-        ETH = coinRepo.save(ETH);
-        BTC = coinRepo.save(BTC);
+            //Save to database and update objects
+            USD = coinRepo.save(USD);
+            EUR = coinRepo.save(EUR);
+            ETH = coinRepo.save(ETH);
+            BTC = coinRepo.save(BTC);
 
-        System.out.println("prices: " + prices);
+            System.out.println("prices: " + prices);
+        }
+
     }
 
     /**
