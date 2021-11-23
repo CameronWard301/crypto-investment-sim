@@ -1,11 +1,13 @@
 package com.crypto.investment.sim.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class Coin {
     @Id
+    @GeneratedValue
     private int CoinID;
     private String CoinCode;
     private String Name;
