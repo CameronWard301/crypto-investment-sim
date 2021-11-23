@@ -5,7 +5,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -20,8 +19,12 @@ public class Prices {
     @Autowired
     public CoinRepository coinRepo;
 
+    /**
+     * Get the Latest prices and store in database for USD, EUR, ETH and BTC Coins
+     * Runs every 5 minutes
+     */
     @Scheduled(fixedRate = 300000)
-    public void getPrices(){
+    public void get_USD_EUR_ETH_BTC_Prices(){
         JSONObject prices = getPrice("d2f70ed0-47cf-11ec-980b-4f59414803c4", "GBP");
         double latestUSD = prices.getJSONObject("data").getDouble("USD");
         double latestEUR = prices.getJSONObject("data").getDouble("EUR");
@@ -41,6 +44,12 @@ public class Prices {
         System.out.println("prices: " + prices);
     }
 
+    /**
+     * API Call to FreeCurrencyAPI returns a JSON Object
+     * @param key API Key
+     * @param base_currency Currency to compare to
+     * @return JSONObject
+     */
     public JSONObject getPrice(String key, String base_currency){
         // latest rates
         try {
