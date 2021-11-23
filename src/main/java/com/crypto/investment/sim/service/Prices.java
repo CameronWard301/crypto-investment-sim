@@ -1,6 +1,8 @@
 package com.crypto.investment.sim.service;
 
+import com.crypto.investment.sim.repos.CoinRepository;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -9,16 +11,33 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static com.crypto.investment.sim.CryptoInvestmentSimApplication.*;
+
 @Service
 public class Prices {
+
+    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
+    @Autowired
+    public CoinRepository coinRepo;
 
     @Scheduled(fixedRate = 300000)
     public void getPrices(){
         JSONObject prices = getPrice("d2f70ed0-47cf-11ec-980b-4f59414803c4", "GBP");
-        Double USD = prices.getJSONObject("data").getDouble("USD");
-        Double EUR = prices.getJSONObject("data").getDouble("EUR");
-        Double ETH = prices.getJSONObject("data").getDouble("ETH");
-        Double BTC = prices.getJSONObject("data").getDouble("BTC");
+        double latestUSD = prices.getJSONObject("data").getDouble("USD");
+        double latestEUR = prices.getJSONObject("data").getDouble("EUR");
+        double latestETH = prices.getJSONObject("data").getDouble("ETH");
+        double latestBTC = prices.getJSONObject("data").getDouble("BTC");
+
+        USD.setCurrentPrice(latestUSD);
+        EUR.setCurrentPrice(latestEUR);
+        ETH.setCurrentPrice(latestETH);
+        BTC.setCurrentPrice(latestBTC);
+
+        USD = coinRepo.save(USD);
+        EUR = coinRepo.save(EUR);
+        ETH = coinRepo.save(ETH);
+        BTC = coinRepo.save(BTC);
+
         System.out.println("prices: " + prices.toString());
     }
 
