@@ -11,8 +11,20 @@ public class Coin {
     private int CoinID;
     private String CoinCode;
     private String Name;
-    private float CurrentPrice;
+    private float CurrentPrice; // in pounds
 
+    public Coin() {
+    }
+    public Coin(String coinCode, String name) {
+        CoinCode = coinCode;
+        Name = name;
+    }
+
+    public Coin(String coinCode, String name, float currentPrice){
+        CoinCode = coinCode;
+        Name = name;
+        CurrentPrice = currentPrice;
+    }
     public int getCoinID() {
         return CoinID;
     }
