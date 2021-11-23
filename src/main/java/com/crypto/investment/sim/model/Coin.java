@@ -11,8 +11,20 @@ public class Coin {
     private int CoinID;
     private String CoinCode;
     private String Name;
-    private float CurrentPrice;
+    private double CurrentPrice; // in pounds
 
+    public Coin() {
+    }
+    public Coin(String coinCode, String name) {
+        CoinCode = coinCode;
+        Name = name;
+    }
+
+    public Coin(String coinCode, String name, float currentPrice){
+        CoinCode = coinCode;
+        Name = name;
+        CurrentPrice = currentPrice;
+    }
     public int getCoinID() {
         return CoinID;
     }
@@ -25,10 +37,10 @@ public class Coin {
     public void setName(String name) {
         Name = name;
     }
-    public float getCurrentPrice() {
+    public double getCurrentPrice() {
         return CurrentPrice;
     }
-    public void setCurrentPrice(float currentPrice) {
+    public void setCurrentPrice(double currentPrice) {
         CurrentPrice = currentPrice;
     }
 
