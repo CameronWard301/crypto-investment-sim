@@ -17,9 +17,9 @@ public class User {
     private float bitcoin;
     private float ethereum;
     private float cardano;
-    private double GBP;
-    private double USD;
-    private double EUR;
+    private float GBP;
+    private float USD;
+    private float EUR;
 
 
     public int getId() {
@@ -82,7 +82,7 @@ public class User {
         return GBP;
     }
 
-    public void setGBP(double GBP) {
+    public void setGBP(float GBP) {
         this.GBP = GBP;
     }
 
@@ -90,7 +90,7 @@ public class User {
         return USD;
     }
 
-    public void setUSD(double USD) {
+    public void setUSD(float USD) {
         this.USD = USD;
     }
 
@@ -98,7 +98,7 @@ public class User {
         return EUR;
     }
 
-    public void setEUR(double EUR) {
+    public void setEUR(float EUR) {
         this.EUR = EUR;
     }
 }

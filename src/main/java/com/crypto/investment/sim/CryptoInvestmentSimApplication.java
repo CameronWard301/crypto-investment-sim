@@ -1,7 +1,9 @@
 package com.crypto.investment.sim;
 
 import com.crypto.investment.sim.model.Coin;
+import com.crypto.investment.sim.model.User;
 import com.crypto.investment.sim.repos.CoinRepository;
+import com.crypto.investment.sim.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -24,6 +26,9 @@ public class CryptoInvestmentSimApplication implements ApplicationRunner {
     @Autowired
     public CoinRepository coinRepo;
 
+    @Autowired
+    public UserRepository userRepo;
+
 
     public static void main(String[] args){
 
@@ -38,5 +43,13 @@ public class CryptoInvestmentSimApplication implements ApplicationRunner {
         GBP = coinRepo.save(GBP);
         EUR = coinRepo.save(EUR);
         USD = coinRepo.save(USD);
+
+
+
+        User testUser = new User();
+        testUser.setUsername("testUsername");
+        testUser.setEUR(50);
+        testUser.setBitcoin((float) 21.5674444);
+        userRepo.save(testUser);
     }
 }
