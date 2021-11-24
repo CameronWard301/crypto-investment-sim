@@ -25,7 +25,7 @@ public class Prices {
      */
     @Scheduled(fixedRate = 300000)
     public void get_USD_EUR_ETH_BTC_Prices(){
-        JSONObject prices = getPrice("d2f70ed0-47cf-11ec-980b-4f59414803c4", "GBP");
+        JSONObject prices = sendGetRequest("https://freecurrencyapi.net/api/v2/latest?apikey=d2f70ed0-47cf-11ec-980b-4f59414803c4&base_currency=GBP");
         if (prices != null){
             double latestUSD = prices.getJSONObject("data").getDouble("USD");
             double latestEUR = prices.getJSONObject("data").getDouble("EUR");
@@ -50,15 +50,13 @@ public class Prices {
     }
 
     /**
-     * API Call to FreeCurrencyAPI returns a JSON Object
-     * @param key API Key
-     * @param base_currency Currency to compare to
-     * @return JSONObject
+     * Send a GET request to a specified URL
+     * @param url The url to send as a GET Request
+     * @return JSONObject - response from the GET Request
      */
-    public JSONObject getPrice(String key, String base_currency){
+    public JSONObject sendGetRequest(String url){
         // latest rates
         try {
-            String url = "https://freecurrencyapi.net/api/v2/latest?apikey="+key+"&base_currency="+base_currency;
             URL urlForGetRequest = new URL(url);
             String readLine;
             HttpURLConnection connection = (HttpURLConnection) urlForGetRequest.openConnection();
