@@ -46,10 +46,10 @@ public class CryptoInvestmentSimApplication implements ApplicationRunner {
 
 
 
-        User testUser = new User();
-        testUser.setUsername("testUsername");
-        testUser.setEUR(50);
-        testUser.setBitcoin((float) 21.5674444);
-        userRepo.save(testUser);
+//        User testUser = new User();
+//        testUser.setUsername("testUsername");
+//        testUser.setEUR(50);
+//        testUser.setBitcoin((float) 21.5674444);
+//        userRepo.save(testUser);
     }
 }
