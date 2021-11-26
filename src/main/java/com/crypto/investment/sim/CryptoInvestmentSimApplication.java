@@ -11,6 +11,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.util.Optional;
+
 @SpringBootApplication
 @EnableScheduling
 public class CryptoInvestmentSimApplication implements ApplicationRunner {
@@ -38,14 +40,16 @@ public class CryptoInvestmentSimApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        BTC = coinRepo.save(BTC);
-        ETH = coinRepo.save(ETH);
-        ADA = coinRepo.save(ADA);
-        GBP = coinRepo.save(GBP);
-        EUR = coinRepo.save(EUR);
-        USD = coinRepo.save(USD);
-
-
+        //Check if coins have already been stored in the DB, if not then store the initial values
+        Optional<Coin> coins = coinRepo.findById("BTC");
+        if (coins.isEmpty()){
+            BTC = coinRepo.save(BTC);
+            ETH = coinRepo.save(ETH);
+            ADA = coinRepo.save(ADA);
+            GBP = coinRepo.save(GBP);
+            EUR = coinRepo.save(EUR);
+            USD = coinRepo.save(USD);
+        }
 
 //        User testUser = new User();
 //        testUser.setName("MrTestUser");
