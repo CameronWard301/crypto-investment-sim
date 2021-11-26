@@ -28,13 +28,13 @@ public class UserController {
         user.ifPresent(value -> model.addAttribute("user", value));
 
         Optional<Coin> btc = coinRepo.findById("BTC");
-        btc.ifPresent(value -> model.addAttribute("btc", value));
+        btc.ifPresent(value1 -> model.addAttribute("btc", value1));
 
         Optional<Coin> eth = coinRepo.findById("ETH");
-        eth.ifPresent(value -> model.addAttribute("eth", value));
+        eth.ifPresent(value2 -> model.addAttribute("eth", value2));
 
         Optional<Coin> ada = coinRepo.findById("ADA");
-        ada.ifPresent(value -> model.addAttribute("ada", value));
+        ada.ifPresent(value3 -> model.addAttribute("ada", value3));
 
         return "user/portfolio";
     }
