@@ -7,8 +7,8 @@ import javax.persistence.Id;
 @Entity
 public class Coin {
     @Id
-    @GeneratedValue
-    private int CoinID;
+//    @GeneratedValue
+//    private int CoinID;
     private String CoinCode;
     private String Name;
     private double CurrentPrice; // in pounds
@@ -25,12 +25,12 @@ public class Coin {
         Name = name;
         CurrentPrice = currentPrice;
     }
-    public int getCoinID() {
-        return CoinID;
-    }
-    public void setCoinID(int coinID) {
-        CoinID = coinID;
-    }
+//    public int getCoinID() {
+//        return CoinID;
+//    }
+//    public void setCoinID(int coinID) {
+//        CoinID = coinID;
+//    }
     public String getName() {
         return Name;
     }
