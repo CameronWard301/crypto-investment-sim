@@ -1,3 +1,4 @@
+<%  response.setIntHeader("Refresh", 300); %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -12,8 +13,10 @@
     <p>EUR: €${user.EUR}</p>
     <br>
     <h1>Crypto:</h1>
-    <p>Bitcoin: ${user.bitcoin}</p>
-    <p>Ethereum: ${user.ethereum}</p>
-    <p>Cardano: ${user.cardano}</p>
+    <p>Bitcoin: ${user.bitcoin} ,   £${btc.getCurrentPrice()*user.bitcoin} ,   ${(btc.getCurrentPrice()*user.bitcoin+eth.getCurrentPrice()*user.ethereum+ada.getCurrentPrice()*user.cardano)/(btc.getCurrentPrice()*user.bitcoin)*100}%</p>
+    <p>Ethereum: ${user.ethereum} ,   £${eth.getCurrentPrice()*user.ethereum} ,   ${(btc.getCurrentPrice()*user.bitcoin+eth.getCurrentPrice()*user.ethereum+ada.getCurrentPrice()*user.cardano)/(eth.getCurrentPrice()*user.ethereum)*100}%</p>
+    <p>Cardano: ${user.cardano} ,   £${ada.getCurrentPrice()*user.cardano} ,   ${(btc.getCurrentPrice()*user.bitcoin+eth.getCurrentPrice()*user.ethereum+ada.getCurrentPrice()*user.cardano)/(ada.getCurrentPrice()*user.cardano)*100}%</p>
+
+
 </body>
 </html>
