@@ -26,6 +26,7 @@ public class CryptoInvestmentSimApplication implements ApplicationRunner {
     @Autowired
     public CoinRepository coinRepo;
 
+    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
     public UserRepository userRepo;
 
