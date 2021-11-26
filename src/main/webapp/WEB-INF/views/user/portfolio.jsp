@@ -13,10 +13,8 @@
     <p>EUR: €${user.EUR}</p>
     <br>
     <h1>Crypto:</h1>
-    <p>Bitcoin: ${user.bitcoin} ,   £${btc.getCurrentPrice()*user.bitcoin} ,   ${(btc.getCurrentPrice()*user.bitcoin+eth.getCurrentPrice()*user.ethereum+ada.getCurrentPrice()*user.cardano)/(btc.getCurrentPrice()*user.bitcoin)*100}%</p>
-    <p>Ethereum: ${user.ethereum} ,   £${eth.getCurrentPrice()*user.ethereum} ,   ${(btc.getCurrentPrice()*user.bitcoin+eth.getCurrentPrice()*user.ethereum+ada.getCurrentPrice()*user.cardano)/(eth.getCurrentPrice()*user.ethereum)*100}%</p>
-    <p>Cardano: ${user.cardano} ,   £${ada.getCurrentPrice()*user.cardano} ,   ${(btc.getCurrentPrice()*user.bitcoin+eth.getCurrentPrice()*user.ethereum+ada.getCurrentPrice()*user.cardano)/(ada.getCurrentPrice()*user.cardano)*100}%</p>
-
-
+    <p>Bitcoin: ${user.bitcoin} ,   £${user.bitcoin/btc.getCurrentPrice()} ,   ${(user.bitcoin/btc.getCurrentPrice()+user.ethereum/eth.getCurrentPrice()+user.cardano/ada.getCurrentPrice())/(user.bitcoin/btc.getCurrentPrice())*100}%</p>
+    <p>Ethereum: ${user.ethereum} ,   £${user.ethereum/eth.getCurrentPrice()} ,   ${(user.bitcoin/btc.getCurrentPrice()+user.ethereum/eth.getCurrentPrice()+user.cardano/ada.getCurrentPrice())/(user.ethereum/eth.getCurrentPrice())*100}%</p>
+    <p>Cardano: ${user.cardano} ,   £${user.cardano/ada.getCurrentPrice()} ,   ${(user.bitcoin/btc.getCurrentPrice()+user.ethereum/eth.getCurrentPrice()+user.cardano/ada.getCurrentPrice())/(user.cardano/ada.getCurrentPrice())*100}%</p>
 </body>
 </html>
