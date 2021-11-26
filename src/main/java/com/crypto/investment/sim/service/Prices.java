@@ -2,6 +2,8 @@ package com.crypto.investment.sim.service;
 
 import com.crypto.investment.sim.repos.CoinRepository;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ import static com.crypto.investment.sim.CryptoInvestmentSimApplication.*;
 @Service
 public class Prices {
 
+    Logger logger = LoggerFactory.getLogger(Prices.class);
+
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
     public CoinRepository coinRepo;
@@ -35,21 +39,20 @@ public class Prices {
             double latestUSD = prices.getJSONObject("data").getDouble("USD");
             double latestEUR = prices.getJSONObject("data").getDouble("EUR");
             double latestETH = prices.getJSONObject("data").getDouble("ETH");
-            double latestBTC = prices.getJSONObject("data").getDouble("BTC");
 
             //Update Objects
             USD.setCurrentPrice(latestUSD);
             EUR.setCurrentPrice(latestEUR);
             ETH.setCurrentPrice(latestETH);
-            BTC.setCurrentPrice(latestBTC);
 
             //Save to database and update objects
             USD = coinRepo.save(USD);
             EUR = coinRepo.save(EUR);
             ETH = coinRepo.save(ETH);
-            BTC = coinRepo.save(BTC);
 
             System.out.println("prices: " + prices);
+        } else{
+            logger.error("freeCurrency API failed! Returned NULL, could not update the database with the latest values. Previous values kept");
         }
 
     }
@@ -62,19 +65,40 @@ public class Prices {
     public void getCardanoPrice(){
         List<List<String>> headers = List.of(List.of("X-CMC_PRO_API_KEY", "fa5c7c88-f345-46a6-8254-1e278c5ac404"));
         JSONObject cardano = sendGetRequest("https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=ADA&convert=GBP", Optional.of(headers));
+        JSONObject bitcoin = sendGetRequest("https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC&convert=GBP", Optional.of(headers));
+
+        //Don't update price if there is an API error:
+        if (cardano == null){
+            logger.error("Cardano API failed! Returned NULL, could not update the database with the latest value. Previous value kept");
+        }
+
+        if (bitcoin == null){
+            logger.error("Bitcoin API failed! Returned NULL, could not update the database with the latest value. Previous value kept");
+        }
+
+        if (bitcoin == null || cardano == null){
+            return;
+        }
 
         //Get price from JSON response
         double latestADA = cardano.getJSONObject("data").getJSONObject("ADA").getJSONObject("quote").getJSONObject("GBP").getDouble("price");
+        double latestBTC = bitcoin.getJSONObject("data").getJSONObject("BTC").getJSONObject("quote").getJSONObject("GBP").getDouble("price");
 
         //Round to 6 DP
-        BigDecimal bd = new BigDecimal(latestADA);
-        double roundedValue = bd.setScale( 6, RoundingMode.HALF_UP ).doubleValue();
-        ADA.setCurrentPrice(roundedValue);
+        BigDecimal bdADA = new BigDecimal(1/latestADA);
+        double roundedADA = bdADA.setScale(6, RoundingMode.HALF_UP).doubleValue();
 
-        //Store in DB and get the latest ADA object
+        BigDecimal bdBTC = new BigDecimal(1/latestBTC);
+        double roundedBTC = bdBTC.setScale(10, RoundingMode.HALF_UP).doubleValue();
+
+        //Store in DB and get the latest coin object
+        ADA.setCurrentPrice(roundedADA);
+        BTC.setCurrentPrice(roundedBTC);
         ADA = coinRepo.save(ADA);
+        BTC = coinRepo.save(BTC);
 
         System.out.println("CARDANO: "+ cardano);
+        System.out.println("Bitcoin: " + bitcoin);
     }
 
     /**
@@ -111,7 +135,7 @@ public class Prices {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+            return null;
         }
-        return null;
     }
 }
