@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class CryptoInvestmentSimApplication implements ApplicationRunner {
 
     public static Coin BTC = new Coin("BTC", "Bitcoin");
-    public static Coin ETH = new Coin("ETC", "Ethereum");
+    public static Coin ETH = new Coin("ETH", "Ethereum");
     public static Coin ADA = new Coin("ADA", "Cardano");
     public static Coin GBP = new Coin("GBP", "Pounds", 1);
     public static Coin EUR = new Coin("EUR", "Euros");
