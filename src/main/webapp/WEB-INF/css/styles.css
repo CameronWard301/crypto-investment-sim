@@ -7,8 +7,30 @@ html * {
     font-family: 'Inter', sans-serif !important;
 }
 
+.card-img-top{
+    width: 100%;
+    height: 7vw;
+}
+
+.card{
+    border-color: var(--primary);
+}
+
+.zoom {
+    padding: 1%;
+    transition: transform .2s;
+}
+
+.zoom:hover {
+    transform: scale(1.05); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
 .active{
     text-decoration: underline!important;
+}
+
+.filter-primary{
+    filter: invert(90%) sepia(90%) saturate(5073%) hue-rotate(309deg) brightness(93%) contrast(103%);
 }
 
 .btn-outline-primary{
