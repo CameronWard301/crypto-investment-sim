@@ -19,6 +19,9 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools:2.5.6'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.6'
+
+    runtimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.39'
+    runtimeOnly 'org.apache.taglibs:taglibs-standard-impl:1.2.5'
 }
 
 test {
