@@ -1,10 +1,11 @@
+<%--@elvariable id="user" type="com.crypto.investment.sim.model.User"--%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>This is the home page</title>
-    <meta charset="UTF-8">
+    <jsp:include page="common/header.jsp" />
 </head>
 <body>
-<p><a href="/portfolio?user=${user}">portfolio</a></p>
+<p><a class="text-centre" href="/portfolio?user=${user}">portfolio</a></p>
 </body>
 </html>
