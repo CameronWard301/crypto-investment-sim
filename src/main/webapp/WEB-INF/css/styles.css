@@ -1,3 +1,32 @@
+:root{
+    --primary: #f0bc5e;
+    --primary_dark: #e09811
+}
+
 html * {
     font-family: 'Inter', sans-serif !important;
+}
+
+.active{
+    text-decoration: underline!important;
+}
+
+.btn-outline-primary{
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-outline-primary:hover{
+    background-color: var(--primary_dark);
+    border-color: var(--primary_dark);
+}
+
+.btn-primary{
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover{
+    background-color: var(--primary_dark);
+    border-color: var(--primary_dark);
 }
