@@ -1,3 +1,8 @@
+<%--suppress ELValidationInJSP --%>
+<%--@elvariable id="user" type="com.crypto.investment.sim.model.User"--%>
+<%--@elvariable id="btc" type="com.crypto.investment.sim.model.Coin"--%>
+<%--@elvariable id="ada" type="com.crypto.investment.sim.model.Coin"--%>
+<%--@elvariable id="eth" type="com.crypto.investment.sim.model.Coin"--%>
 <%  response.setIntHeader("Refresh", 300); %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
