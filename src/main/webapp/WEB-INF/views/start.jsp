@@ -2,10 +2,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>This is the home page</title>
-    <jsp:include page="common/head.jsp" />
+    <title>Crypto Sim - Home</title>
+    <jsp:include page="common/head.jsp"/>
 </head>
+
+    <jsp:include page="common/header.jsp"/>
+
 <body>
-<p><a class="text-centre" href="/portfolio?user=${user}">portfolio</a></p>
+<div class="container">
+    <div class="col-lg-12">
+        <p class="text-center">
+            <a href="/portfolio?user=${user}">Your Portfolio</a>
+        </p>
+    </div>
+</div>
 </body>
 </html>
