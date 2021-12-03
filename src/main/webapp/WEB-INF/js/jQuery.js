@@ -1,5 +1,5 @@
 $(function () {
-    // this will get the full URL at the address bar
+    // this will get the full URL at the address bar excluding parameters
     let url = (window.location.href).split("?")[0];
 
     // passes on every "a" tag
