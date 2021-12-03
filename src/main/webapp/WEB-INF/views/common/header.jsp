@@ -6,7 +6,7 @@
 
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li><a href="/" class="nav-link px-2 link-dark">Home</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">Markets</a></li>
+        <li><a href="/markets" class="nav-link px-2 link-dark">Markets</a></li>
         <li><a href="/buySell?user=1" class="nav-link px-2 link-dark">Buy/Sell</a></li>
         <li><a href="/portfolio" class="nav-link px-2 link-dark">Your Portfolio</a></li>
     </ul>
