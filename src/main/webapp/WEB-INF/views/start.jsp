@@ -18,12 +18,6 @@
         </p>
     </div>
 
-    <div>
-        <form action="invalidate/session" method="post">
-            <input type="submit" value="Destroy Session" />
-        </form>
-    </div>
-
 <%--    ${USER_SESSION.bitcoin}--%>
 
 </div>
