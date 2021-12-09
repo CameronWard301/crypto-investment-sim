@@ -1,6 +1,8 @@
+<%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%--@elvariable id="user" type="com.crypto.investment.sim.model.User"--%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Crypto Sim - Home</title>
     <jsp:include page="common/head.jsp"/>
@@ -15,6 +17,15 @@
             <a href="/portfolio?user=${user}">Your Portfolio</a>
         </p>
     </div>
+
+    <div>
+        <form action="invalidate/session" method="post">
+            <input type="submit" value="Destroy Session" />
+        </form>
+    </div>
+
+<%--    ${USER_SESSION.bitcoin}--%>
+
 </div>
 </body>
 </html>
