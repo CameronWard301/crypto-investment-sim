@@ -9,8 +9,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.CacheControl;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
-@EnableScheduling
+@Configuration
 public class CryptoInvestmentSimApplication implements ApplicationRunner, WebMvcConfigurer {
 
     public static Coin BTC = new Coin("BTC", "Bitcoin");
@@ -45,7 +45,7 @@ public class CryptoInvestmentSimApplication implements ApplicationRunner, WebMvc
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        // Register resource handler for images
+        // Register resource handler for images, js and css
         registry.addResourceHandler("/images/**").addResourceLocations("/WEB-INF/images/")
                 .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
 
@@ -70,10 +70,14 @@ public class CryptoInvestmentSimApplication implements ApplicationRunner, WebMvc
         }
 
 //        User testUser = new User();
-//        testUser.setName("MrTestUser");
-//        testUser.setUsername("testUsername");
-//        testUser.setEUR(50);
-//        testUser.setBitcoin((float) 21.5674444);
+//        testUser.setName("Josh");
+//        testUser.setUsername("jrw40");
+//        testUser.setEUR(100);
+//        testUser.setEthereum((float) 56);
+//        testUser.setGBP(300);
+//        testUser.setBitcoin((float) 19);
+//        testUser.setUSD(1400);
+//        testUser.setCardano((float) 9078);
 //        userRepo.save(testUser);
     }
 }

@@ -15,6 +15,12 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.6'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.5.6'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.session:spring-session-core'
+    implementation 'org.springframework.session:spring-session-jdbc'
+    implementation 'mysql:mysql-connector-java'
+    runtimeOnly 'javax.servlet:jstl:1.2' // helpful JSP tags
+
     implementation 'org.json:json:20210307'
     developmentOnly 'org.springframework.boot:spring-boot-devtools:2.5.6'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
