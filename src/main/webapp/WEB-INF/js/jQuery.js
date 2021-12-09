@@ -9,4 +9,14 @@ $(function () {
             $(this).closest("a").addClass("active");
         }
     });
+
+    $.ajax({
+        'url': '/user/isLoggedIn/',
+        'success': function(resp) {
+            if(resp) {
+                $('#login-btn').html("Logout").attr("href", "/invalidate/session")
+                console.log("success, logged in")
+            }
+        }
+    });
 });
