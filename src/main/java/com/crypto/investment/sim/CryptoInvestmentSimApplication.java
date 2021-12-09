@@ -9,16 +9,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.CacheControl;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -26,34 +18,8 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
-@EnableScheduling
 @Configuration
-@EnableWebSecurity
-public class CryptoInvestmentSimApplication extends WebSecurityConfigurerAdapter implements ApplicationRunner, WebMvcConfigurer {
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("admin")
-                .password(passwordEncoder().encode("password"))
-                .roles("ADMIN");
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .httpBasic().and()
-                .authorizeRequests()
-                .antMatchers("/").hasRole("ADMIN")
-                .anyRequest().authenticated();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
+public class CryptoInvestmentSimApplication implements ApplicationRunner, WebMvcConfigurer {
 
     public static Coin BTC = new Coin("BTC", "Bitcoin");
     public static Coin ETH = new Coin("ETH", "Ethereum");
@@ -79,7 +45,7 @@ public class CryptoInvestmentSimApplication extends WebSecurityConfigurerAdapter
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        // Register resource handler for images
+        // Register resource handler for images, js and css
         registry.addResourceHandler("/images/**").addResourceLocations("/WEB-INF/images/")
                 .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
 
