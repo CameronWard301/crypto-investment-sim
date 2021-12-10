@@ -15,6 +15,8 @@
     <div class="col-lg-12">
         <p class="text-center">
             <a href="/portfolio?user=${user}">Your Portfolio</a>
+
+
         </p>
     </div>
 
