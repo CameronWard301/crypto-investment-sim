@@ -3,17 +3,17 @@
 
 
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
+    <jsp:include page="../common/head.jsp"/>
+    <title>Crypto Sim | Login</title>
 </head>
+
+<jsp:include page="../common/header.jsp"/>
 <body>
 
+<div class="container">
     <form action="/addlogin">
         <label>Enter Username:</label> <br>
         <input name="username"> <br>
@@ -22,7 +22,7 @@
         <input name="password"><br> <br>
         <input type="submit">
     </form>
-
+</div>
 
 
 </body>
