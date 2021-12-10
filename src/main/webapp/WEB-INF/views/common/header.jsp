@@ -10,11 +10,11 @@
         <li><a href="/" class="nav-link px-2 link-dark">Home</a></li>
         <li><a href="/markets" class="nav-link px-2 link-dark">Markets</a></li>
         <li><a href="/buySell?user=1" class="nav-link px-2 link-dark">Buy/Sell</a></li>
-        <li><a href="/portfolio" class="nav-link px-2 link-dark">Your Portfolio</a></li>
+        <li><a href="/portfolio?user=1" class="nav-link px-2 link-dark">Your Portfolio</a></li>
     </ul>
 
     <div class="col-md-3 text-end">
-        <a id="login-btn" class="btn btn-outline-primary me-2" href="#">Login</a>
-        <a href="#" class="btn btn-primary">Sign-up</a>
+        <a id="login-btn" class="btn btn-outline-primary me-2" href="/login">Login</a>
+        <a href="/signupform" class="btn btn-primary">Sign-up</a>
     </div>
 </header>
