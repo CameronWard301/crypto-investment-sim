@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.Serializable;
 import java.util.Optional;
 
 @SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection", "SpringMVCViewInspection"})
 @Controller
-public class UserController {
+public class UserController implements Serializable {
 
     @Autowired
     public UserRepository userRepo;
@@ -29,6 +30,7 @@ public class UserController {
     public String viewPortfolio(Model model, HttpSession session, HttpServletRequest request) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null){
+
             return "redirect:/login";
         }
         model.addAttribute("user", USER_SESSION);

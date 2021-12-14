@@ -42,7 +42,7 @@
                 </div>
             </div>
         </div>
-            <br></br>
+            <br>
 
             <div class="row mb-4">
             <h1 class="mb-4">CURRENCY TO BE BOUGHT:</h1>
