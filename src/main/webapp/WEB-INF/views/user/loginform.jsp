@@ -30,7 +30,7 @@
 
                         <div class="form-group mb-3">
                             <label for="password">Enter Password</label>
-                            <input id="password" class="form-control" name="password">
+                            <input type="password" id="password" class="form-control" name="password">
                             <span class="text-error">${passwordError}</span>
                         </div>
 

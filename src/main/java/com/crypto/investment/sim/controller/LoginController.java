@@ -2,6 +2,7 @@ package com.crypto.investment.sim.controller;
 
 import com.crypto.investment.sim.model.User;
 import com.crypto.investment.sim.repos.UserRepository;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ public class LoginController{
         return "user/loginform";
     }
 
-    @RequestMapping("/addlogin")
+    @RequestMapping("/addLogin")
     public String login(String password, String username, Model model, HttpSession session, HttpServletRequest request) {
         List<User> users = userRepo.findByUsername(username);
         if (users.size() == 1) {
@@ -33,10 +34,7 @@ public class LoginController{
             User foundUser = users.get(0);
             String DBpassword = foundUser.getHashPassword();
 
-            if (Objects.equals(DBpassword, password)) {
-                String tempusername = foundUser.getUsername();
-                String tempfirstname = foundUser.getFirstName();
-                String templastname = foundUser.getLastName();
+            if (BCrypt.checkpw(password, DBpassword)) {
                 request.getSession().setAttribute("USER_SESSION", foundUser);
                 return "redirect:/portfolio";
             }
