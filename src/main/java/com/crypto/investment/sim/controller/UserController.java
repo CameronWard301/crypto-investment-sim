@@ -9,11 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
-
 
 @SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection", "SpringMVCViewInspection"})
 @Controller
@@ -26,36 +26,77 @@ public class UserController {
     public CoinRepository coinRepo;
 
     @GetMapping("/portfolio")
-    public String viewPortfolio(@RequestParam("user") int id, Model model, HttpSession session, HttpServletRequest request) {
-        //TODO: Implement when login system is working
-        /* Object USER_SESSION = session.getAttribute("USER_SESSION");
+    public String viewPortfolio(Model model, HttpSession session, HttpServletRequest request) {
+        Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null){
-            return "redirect:/"; //TODO Change to login page
-        }*/
-        // TODO: USE request.getSession().setAttribute("USER_SESSION", USER_OBJECT); to set set the user object on login
-        Optional<User> user = userRepo.findById(id);
-        user.ifPresent(value -> model.addAttribute("user", value));
+            return "redirect:/login";
+        }
+        model.addAttribute("user", USER_SESSION);
         this.getLatestCoins(model);
         return "user/portfolio";
     }
 
 
     @GetMapping("/buySell")
-    public String viewBuySell(@RequestParam("user") int id, Model model) {
-        Optional<User> user = userRepo.findById(id);
-        user.ifPresent(value -> model.addAttribute("user", value));
+    public String viewBuySell(Model model, HttpSession session, HttpServletRequest request) {
+        Object USER_SESSION = session.getAttribute("USER_SESSION");
+        if (USER_SESSION == null){
+            return "redirect:/login";
+        }
+        model.addAttribute("user", USER_SESSION);
         this.getLatestCoins(model);
 
         return "user/buySell";
     }
 
     @PostMapping("/buySell")
-    public String finalTransaction(@RequestParam("user") int id, Model model) {
-
-        Optional<User> user = userRepo.findById(id);
-        user.ifPresent(value -> model.addAttribute("user", value));
+    public String finalTransaction(Model model, HttpSession session, HttpServletRequest request) {
+        Object USER_SESSION = session.getAttribute("USER_SESSION");
+        if (USER_SESSION == null){
+            return "redirect:/login";
+        }
+        model.addAttribute("user", USER_SESSION);
 
         return "user/buySell";
+    }
+
+    @RequestMapping("/doAddRemoveCurrency")
+    public String addRemove(@RequestParam(value="fiat", required = false) Optional<Integer> id, @RequestParam int gbp, Model model, HttpSession session, HttpServletRequest request) {
+        User USER_SESSION = (User) session.getAttribute("USER_SESSION");
+        if (USER_SESSION == null){
+            return "redirect:/login";
+        }
+        model.addAttribute("user", USER_SESSION);
+
+
+        if (id.isEmpty()) {
+            //If no parameter show default markets in £££
+            model.addAttribute("fiat", 1508);
+        } else if (id.get() == 1505) {
+            //Show markets in $$$
+            model.addAttribute("fiat", 1505);
+        } else if (id.get() == 1506) {
+            //Show markets in €€€
+            model.addAttribute("fiat", 1506);
+        } else {
+            //If a different param value is passed fall back on £££
+            model.addAttribute("fiat", 1508);
+        }
+
+        USER_SESSION.setGBP((float) USER_SESSION.getGBP()+gbp);
+        userRepo.save(USER_SESSION);
+        session.setAttribute("USER_SESSION", USER_SESSION);
+        return "user/addRemoveCurrency";
+    }
+
+    @RequestMapping("/addRemoveCurrency")
+    public String currency(Model model, HttpSession session, HttpServletRequest request){
+        Object USER_SESSION = session.getAttribute("USER_SESSION");
+        if (USER_SESSION == null){
+            return "redirect:/login";
+        }
+        model.addAttribute("user", USER_SESSION);
+        return "user/addRemoveCurrency";
     }
 
     private void getLatestCoins(Model model){

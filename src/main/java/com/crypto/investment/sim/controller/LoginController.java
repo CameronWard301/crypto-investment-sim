@@ -8,41 +8,43 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class LoginController{
+
+    private static final Object USER_OBJECT = null;
     @Autowired
     public UserRepository userRepo;
 
-    @GetMapping ("/login")
+    @GetMapping("/login")
     public String Displaylogin(@ModelAttribute User user,Model model) {
         return "user/loginform";
     }
 
-    @RequestMapping   ("/addlogin")
-    public String login(String Password,String username,Model model) {
+    @RequestMapping("/addlogin")
+    public String login(String password, String username, Model model, HttpSession session, HttpServletRequest request) {
         List<User> users = userRepo.findByUsername(username);
         if (users.size() == 1) {
             // the user was found
             User foundUser = users.get(0);
             String DBpassword = foundUser.getHashPassword();
 
-            if (DBpassword == Password){
+            if (Objects.equals(DBpassword, password)) {
                 String tempusername = foundUser.getUsername();
                 String tempfirstname = foundUser.getFirstName();
                 String templastname = foundUser.getLastName();
-
+                request.getSession().setAttribute("USER_SESSION", foundUser);
                 return "redirect:/portfolio";
             }
 
-        } else {
-            // username not found
-            model.addAttribute("Error","Username not found");
-            return "user/loginform";
-
-
         }
-        return null;
+        // username not found
+        model.addAttribute("Error","Username not found");
+        return "user/loginform";
+
     }
 }

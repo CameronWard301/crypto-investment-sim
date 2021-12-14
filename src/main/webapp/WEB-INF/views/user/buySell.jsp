@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <jsp:include page="../common/head.jsp"/>
-    <title>Crypto Sim | ${user.name}'s Portfolio</title>
+    <title>Crypto Sim | ${user.firstName}'s Portfolio</title>
 </head>
 
 <jsp:include page="../common/header.jsp"/>
@@ -272,5 +272,6 @@
        finalizeFunction()"> FINALIZE TRANSACTION </button>
     <br></br>
     <br></br>
+</div>
 </body>
 </html>

@@ -9,7 +9,7 @@
 <html lang="en">
 <head>
     <jsp:include page="../common/head.jsp"/>
-    <title>Crypto Sim | ${user.name}'s Portfolio</title>
+    <title>Crypto Sim | ${user.firstName}'s Portfolio</title>
 </head>
 
 <jsp:include page="../common/header.jsp"/>
@@ -48,9 +48,11 @@
                 </div>
             </div>
         </div>
-
     </div>
 
+    <a href="/addRemoveCurrency" class="btn btn-primary">Add/Remove Currency</a>
+<br>
+    <br>
     <div class="row mb-2">
         <h1 class="mb-4">Your purchased crypto:</h1>
         <div class="col-lg-4 mb-2">

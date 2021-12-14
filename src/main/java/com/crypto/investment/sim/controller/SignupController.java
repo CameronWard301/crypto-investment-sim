@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -22,7 +24,7 @@ public class SignupController{
     }
 
     @RequestMapping ("/signup")
-    public String CreateCustomer(@ModelAttribute User signup,Model model) {
+    public String CreateCustomer(@ModelAttribute User signup, Model model, HttpSession session, HttpServletRequest request) {
 
         List<User> users = userRepo.findByUsername(signup.getUsername());
         if(users.size() >=1) {
@@ -32,7 +34,9 @@ public class SignupController{
 
 
         userRepo.save(signup);
-        return "signup/success";
+
+        request.getSession().setAttribute("USER_SESSION", signup);
+        return "redirect:/portfolio";
 //        return "redirect:/portfolio";
     }
 }
