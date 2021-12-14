@@ -25,6 +25,11 @@
                 <div class="card-body">
                     <h2 class="card-title">GBP:</h2>
                     <p class="card-text">Amount: &#163;${user.GBP}</p>
+                    <form action="/addfunds">
+                        <label for="number">Add funds </label>
+                        <input id="number" type="number">
+                        <input type="submit">
+                    </form>
                 </div>
             </div>
         </div>

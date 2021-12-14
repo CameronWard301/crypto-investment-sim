@@ -15,6 +15,6 @@
 
     <div class="col-md-3 text-end">
         <a id="login-btn" class="btn btn-outline-primary me-2" href="/login">Login</a>
-        <a href="/signupform" class="btn btn-primary">Sign-up</a>
+        <a href="/sign-up" class="btn btn-primary">Sign-up</a>
     </div>
 </header>
