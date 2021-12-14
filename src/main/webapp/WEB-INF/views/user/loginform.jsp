@@ -38,7 +38,7 @@
                     </form>
                     <p>Don't have an account?
                         <%--suppress HtmlUnknownTarget --%>
-                        <a href="signup">Create one here</a>
+                        <a href="sign-up">Create one here</a>
                     </p>
                 </div>
             </div>
