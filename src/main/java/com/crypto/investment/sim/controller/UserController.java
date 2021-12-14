@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.Serializable;
 import java.util.Optional;
 
 
 @SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection", "SpringMVCViewInspection"})
 @Controller
-public class UserController {
+public class UserController implements Serializable {
 
     @Autowired
     public UserRepository userRepo;
@@ -33,7 +34,8 @@ public class UserController {
             return "redirect:/"; //TODO Change to login page
         }*/
         // TODO: USE request.getSession().setAttribute("USER_SESSION", USER_OBJECT); to set set the user object on login
-        Optional<User> user = userRepo.findById(id);
+        Optional<User> user = userRepo.findById(id); //TODO remove and replace with session
+        request.getSession().setAttribute("USER_SESSION", user.get());
         user.ifPresent(value -> model.addAttribute("user", value));
         this.getLatestCoins(model);
         return "user/portfolio";
