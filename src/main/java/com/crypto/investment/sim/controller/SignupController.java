@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 public class SignupController{
     @Autowired
@@ -20,7 +22,13 @@ public class SignupController{
     }
 
     @RequestMapping ("/signup")
-    public String CreateCustomer(@ModelAttribute User signup) {
+    public String CreateCustomer(@ModelAttribute User signup,Model model) {
+
+        List<User> users = userRepo.findByUsername(signup.getUsername());
+        if(users.size() >=1) {
+            model.addAttribute("Error","Duplicate Users");
+            return "signup/signup";
+        }
 
 
         userRepo.save(signup);

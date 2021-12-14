@@ -12,6 +12,7 @@
 <body>
 
 <div class="container">
+${Error}
 <form:form action="/signup" modelAttribute="user" method="post" >
     <form:label path="firstName">Enter firstname:</form:label>
     <form:input name ="firstName" path="firstName"/>

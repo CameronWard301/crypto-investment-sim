@@ -36,10 +36,6 @@ public class LoginController{
                 return "redirect:/portfolio";
             }
 
-        } else if (users.size() > 1) {
-            model.addAttribute("Error","Duplicate Users");
-            // duplicate users
-            return "user/loginform";
         } else {
             // username not found
             model.addAttribute("Error","Username not found");
