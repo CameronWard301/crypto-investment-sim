@@ -64,6 +64,20 @@
                                 <option value="USD">USD</option>
                                 <option value="GBP">GBP</option>
                             </select>
+                            <input id='userBTC' type='hidden' value="${user.bitcoin}" />
+                            <input id='userADA' type='hidden' value="${user.cardano}" />
+                            <input id='userEUR' type='hidden' value="${user.EUR}" />
+                            <input id='userETH' type='hidden' value="${user.ethereum}" />
+                            <input id='userGBP' type='hidden' value="${user.GBP}" />
+                            <input id='userUSD' type='hidden' value="${user.USD}" />
+
+                            <input id='BTCprice' type='hidden' value="${btc.getCurrentPrice()}" />
+                            <input id='ADAprice' type='hidden' value="${ada.getCurrentPrice()}" />
+                            <input id='EURprice' type='hidden' value="${eur.getCurrentPrice()}" />
+                            <input id='ETHprice' type='hidden' value="${eth.getCurrentPrice()}" />
+                            <input id='GBPprice' type='hidden' value="${gbp.getCurrentPrice()}" />
+                            <input id='USDprice' type='hidden' value="${usd.getCurrentPrice()}" />
+
 
 
                             <style>
@@ -81,19 +95,103 @@
                 function update() {
                     var select = document.getElementById('sell');
                     var option = select.options[select.selectedIndex];
+                    var BTCprice = document.getElementById("userBTC").value;
+                    var ETHprice = document.getElementById("userETH").value;
+                    var ADAprice = document.getElementById("userADA").value;
+                    var USDprice = document.getElementById("userUSD").value;
+                    var EURprice = document.getElementById("userEUR").value;
+                    var GBPprice = document.getElementById("userGBP").value;
+
+
+                    var finalBTCprice = document.getElementById("BTCprice").value;
+                    var finalETHprice = document.getElementById("ETHprice").value;
+                    var finalADAprice = document.getElementById("ADAprice").value;
+                    var finalUSDprice = document.getElementById("USDprice").value;
+                    var finalEURprice = document.getElementById("EURprice").value;
+                    var finalGBPprice = document.getElementById("GBPprice").value;
+
+                    if(option.value == "BTC") {
+                        var sellprice = finalBTCprice;
+                        var portfoliocurr = BTCprice;
+                    }
+                    if(option.value == "ADA") {
+                        var sellprice = finalADAprice;
+                        var portfoliocurr = ADAprice;
+                    }
+                    if(option.value == "ETH") {
+                        var sellprice = finalETHprice;
+                        var portfoliocurr = ETHprice;
+                    }
+                    if(option.value == "EUR") {
+                        var sellprice = finalEURprice;
+                        var portfoliocurr = EURprice;
+                    }
+                    if(option.value == "GBP") {
+                        var sellprice = finalGBPprice;
+                        var portfoliocurr = GBPprice;
+                    }
+                    if(option.value == "USD") {
+                        var sellprice = finalUSDprice;
+                        var portfoliocurr = USDprice;
+                    }
 
                     document.getElementById('finalsell').value = option.value;
+                    document.getElementById('finalsellprice').value = sellprice;
+                    document.getElementById('portfoliocurrency').value = portfoliocurr;
+
+
 
                     var select = document.getElementById('buy');
                     var option = select.options[select.selectedIndex];
 
+                    if(option.value == "BTC") {
+                        var buyprice = "bitcoin price";
+                        var portfoliomon = BTCprice;
+
+                    }
+                    if(option.value == "ADA") {
+                        var buyprice = "cardano price";
+                        var portfoliomon = ADAprice;
+
+                    }
+                    if(option.value == "ETH") {
+                        var buyprice = "ethereum price";
+                        var portfoliomon = ETHprice;
+
+                    }
+                    if(option.value == "EUR") {
+                        var buyprice = "euro price";
+                        var portfoliomon = EURprice;
+
+                    }
+                    if(option.value == "GBP") {
+                        var buyprice = "pounds price";
+                        var portfoliomon = GBPprice;
+
+                    }
+                    if(option.value == "USD") {
+                        var buyprice = "dollar price";
+                        var portfoliomon = USDprice;
+
+                    }
+
                     document.getElementById('finalbuy').value = option.value;
+                    document.getElementById('finalbuyprice').value = buyprice;
+                    document.getElementById('portfoliocurrencymon').value = portfoliomon;
+
 
                 }
 
                 update();
             </script>
             </form:form>
+
+
+
+
+
+
+                
 
             </form>
 
@@ -110,8 +208,13 @@
                     <img class="card-img-top w-25 mx-auto" src="https://cryptologos.cc/logos/bitcoin-btc-logo.svg?v=014" alt="Bitcoin">
                     <div class="card-body">
                         <h2 class="card-title">You have: </h2>
+
+                        <input type="text" id="portfoliocurrency" disabled class="btn btn-outline-primary me-2">
                         <input type="text" id="finalsell" disabled class="btn btn-outline-primary me-2">
-                        <p class="card-text">At Current Value: &#8383;${user.bitcoin}</p>
+                        <br></br>
+                        <p class="card-text">At Current Value compared to 1 GBP:</p>
+                        <input type="text" id="finalsellprice" disabled class="btn btn-outline-primary me-2">
+
                         <p class="card-text">&#163;${user.bitcoin/btc.getCurrentPrice()}</p>
                         <p class="card-text">${(user.bitcoin/btc.getCurrentPrice())/(user.bitcoin/btc.getCurrentPrice()+user.ethereum/eth.getCurrentPrice()+user.cardano/ada.getCurrentPrice())*100}%</p>
                     </div>
@@ -123,8 +226,11 @@
                 <img class="card-img-top w-25 mx-auto" src="https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=014" alt="Ethereum">
                 <div class="card-body">
                     <h2 class="card-title">You want: </h2>
+                    <input type="text" id="portfoliocurrencymon" disabled class="btn btn-outline-primary me-2">
                     <input type="text" id="finalbuy" disabled class="btn btn-outline-primary me-2">
-                    <p class="card-text">At Current Value: ${user.ethereum}</p>
+                    <br></br>
+                    <p class="card-text">At Current Value:</p>
+                    <input type="text" id="finalbuyprice" disabled class="btn btn-outline-primary me-2">
                     <p class="card-text">&#163;${user.ethereum/eth.getCurrentPrice()}</p>
                     <p class="card-text">${(user.ethereum/eth.getCurrentPrice())/(user.bitcoin/btc.getCurrentPrice()+user.ethereum/eth.getCurrentPrice()+user.cardano/ada.getCurrentPrice())*100}%</p>
                 </div>
@@ -135,18 +241,36 @@
             <div class="card px-5 py-3 h-100 zoom">
                 <img class="card-img-top w-25 mx-auto" src="https://cryptologos.cc/logos/cardano-ada-logo.svg?v=014" alt="Cardano">
                 <div class="card-body">
-                    <button type="button" class="btn btn-outline-primary me-2">GET QUOTE</button>
-                <br></br>
                     <h2 class="card-title">Final Quote: </h2>
-                    <p class="card-text">At Value: ${user.cardano}</p>
-                    <p class="card-text">&#163;${user.cardano/ada.getCurrentPrice()}</p>
-                    <p class="card-text">${(user.cardano/ada.getCurrentPrice())/(user.bitcoin/btc.getCurrentPrice()+user.ethereum/eth.getCurrentPrice()+user.cardano/ada.getCurrentPrice())*100}%</p>
+                    <p class="card-title">Select Amount to sell: </p>
+
+                    <input type="number" id="quantity" class="btn btn-outline-primary me-2">
+                    <br></br>
+                    <p class="card-text">You receive: </p>
+                    <input type="text" id="quote" disabled class="btn btn-outline-primary me-2">
+
+
                 </div>
+                <button type="button" class="btn btn-outline-primary me-2" onclick="function myFunction() {
+                let r = document.getElementById('quantity');
+                let j = document.getElementById('quote').value = r.value/100;
+
+
+                }
+                myFunction()">CONVERT</button>
+
             </div>
+
         </div>
 
     </div>
-</div>
 
+</div>
+    <button type="button" class="btn btn-primary" onclick="function finalizeFunction(){
+
+    }
+       finalizeFunction()"> FINALIZE TRANSACTION </button>
+    <br></br>
+    <br></br>
 </body>
 </html>
