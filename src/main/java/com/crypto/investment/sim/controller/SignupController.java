@@ -12,6 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @SuppressWarnings("SpringMVCViewInspection")
@@ -38,7 +42,9 @@ public class SignupController{
             @Valid
             @ModelAttribute UserSignUp userSignUp,
             BindingResult result,
-            Model model
+            Model model, 
+            HttpSession session, 
+            HttpServletRequest request
     ) {
 
         if (result.hasErrors()){
@@ -61,7 +67,10 @@ public class SignupController{
 //        matched = SCryptUtil.check("passwordno", generatedSecuredPasswordHash);
 //        System.out.println(matched);
 
+
         userRepo.save(user);
+        request.getSession().setAttribute("USER_SESSION", user);
         return "redirect:/portfolio";
+
     }
 }

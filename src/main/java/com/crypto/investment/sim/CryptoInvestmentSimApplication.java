@@ -70,7 +70,9 @@ public class CryptoInvestmentSimApplication implements ApplicationRunner, WebMvc
         }
 
 //        User testUser = new User();
-//        testUser.setName("Josh");
+//        testUser.setFirstName("Josh");
+//        testUser.setLastName("Wilkins");
+//        testUser.setHashPassword("hello");
 //        testUser.setUsername("jrw40");
 //        testUser.setEUR(100);
 //        testUser.setEthereum((float) 56);
