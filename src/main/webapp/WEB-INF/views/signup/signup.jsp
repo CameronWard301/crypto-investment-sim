@@ -2,12 +2,16 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Signup</title>
+    <jsp:include page="../common/head.jsp"/>
+    <title>Crypto Sim | Signup</title>
 </head>
+
+<jsp:include page="../common/header.jsp"/>
 <body>
+
+<div class="container">
 ${Error}
 <form:form action="/signup" modelAttribute="user" method="post" >
     <form:label path="firstName">Enter firstname:</form:label>
@@ -31,6 +35,6 @@ ${Error}
     <input type="submit"/><form:errors/>
 </form:form>
 
-
+</div>
 </body>
 </html>
