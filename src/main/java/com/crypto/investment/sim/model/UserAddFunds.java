@@ -1,51 +1,50 @@
 package com.crypto.investment.sim.model;
 
-import java.util.Optional;
-
+@SuppressWarnings("unused")
 public class UserAddFunds {
-    private float value;
-    private float GBP;
-    private float USD;
-    private float EUR;
-    private Optional<Integer> fiat;
+    private String value;
+    private String GBP;
+    private String USD;
+    private String EUR;
+    private String fiat;
 
-    public float getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(float value) {
+    public void setValue(String value) {
         this.value = value;
     }
 
-    public float getGBP() {
+    public String getGBP() {
         return GBP;
     }
 
-    public void setGBP(float GBP) {
+    public void setGBP(String GBP) {
         this.GBP = GBP;
     }
 
-    public float getUSD() {
+    public String getUSD() {
         return USD;
     }
 
-    public void setUSD(float USD) {
+    public void setUSD(String USD) {
         this.USD = USD;
     }
 
-    public float getEUR() {
+    public String getEUR() {
         return EUR;
     }
 
-    public void setEUR(float EUR) {
+    public void setEUR(String EUR) {
         this.EUR = EUR;
     }
 
-    public Optional<Integer> getFiat() {
+    public String getFiat() {
         return fiat;
     }
 
-    public void setFiat(Optional<Integer> fiat) {
+    public void setFiat (String fiat) {
         this.fiat = fiat;
     }
 }
