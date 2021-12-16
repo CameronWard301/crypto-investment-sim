@@ -4,6 +4,7 @@ import com.crypto.investment.sim.model.Coin;
 import com.crypto.investment.sim.model.User;
 import com.crypto.investment.sim.repos.CoinRepository;
 import com.crypto.investment.sim.repos.UserRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.Optional;
@@ -27,20 +27,25 @@ public class UserController implements Serializable {
     public CoinRepository coinRepo;
 
     @GetMapping("/portfolio")
-    public String viewPortfolio(Model model, HttpSession session, HttpServletRequest request) {
+    public String viewPortfolio(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null){
 
             return "redirect:/login";
         }
+        User theUser = (User) USER_SESSION;
+        JSONObject history = new JSONObject();
+        history.put("history",theUser.getPortfolioHistory());
+
         model.addAttribute("user", USER_SESSION);
+        model.addAttribute("portfolioHistory", history);
         this.getLatestCoins(model);
         return "user/portfolio";
     }
 
 
     @GetMapping("/buySell")
-    public String viewBuySell(Model model, HttpSession session, HttpServletRequest request) {
+    public String viewBuySell(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null){
             return "redirect:/login";
@@ -52,7 +57,7 @@ public class UserController implements Serializable {
     }
 
     @PostMapping("/buySell")
-    public String finalTransaction(Model model, HttpSession session, HttpServletRequest request) {
+    public String finalTransaction(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null){
             return "redirect:/login";
@@ -63,7 +68,7 @@ public class UserController implements Serializable {
     }
 
     @RequestMapping("/doAddRemoveCurrency")
-    public String addRemove(@RequestParam(value="fiat", required = false) Optional<Integer> id, @RequestParam int gbp, Model model, HttpSession session, HttpServletRequest request) {
+    public String addRemove(@RequestParam(value="fiat", required = false) Optional<Integer> id, @RequestParam int gbp, Model model, HttpSession session) {
         User USER_SESSION = (User) session.getAttribute("USER_SESSION");
         if (USER_SESSION == null){
             return "redirect:/login";
@@ -85,14 +90,14 @@ public class UserController implements Serializable {
             model.addAttribute("fiat", 1508);
         }
 
-        USER_SESSION.setGBP((float) USER_SESSION.getGBP()+gbp);
+        USER_SESSION.setGBP(USER_SESSION.getGBP() +gbp);
         userRepo.save(USER_SESSION);
         session.setAttribute("USER_SESSION", USER_SESSION);
         return "user/addRemoveCurrency";
     }
 
     @RequestMapping("/addRemoveCurrency")
-    public String currency(Model model, HttpSession session, HttpServletRequest request){
+    public String currency(Model model, HttpSession session){
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null){
             return "redirect:/login";
