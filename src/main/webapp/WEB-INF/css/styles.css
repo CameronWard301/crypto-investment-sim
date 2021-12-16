@@ -12,9 +12,21 @@ html * {
     color: var(--error);
 }
 
+.text-primary {
+    color: var(--primary) !important;
+}
 .card-img-top{
     width: 100%;
     height: 7vw;
+}
+
+a {
+    color: var(--primary);
+}
+
+.big-number{
+    font-size: 5em;
+    color: var(--primary);
 }
 
 .card{

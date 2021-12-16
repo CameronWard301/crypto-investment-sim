@@ -50,7 +50,11 @@ public class MainController {
         return "markets";
     }
 
-    //Send links to this endpoint to destroy sessionsL
+    /**
+     * Destroys the user's session. Send all of these requests to the endpoint /invalidate/session
+     * @param request the users request will contain their session info
+     * @return redirect back to the home page
+     */
     @GetMapping("/invalidate/session")
     public String destroySession(HttpServletRequest request) {
         //invalidate the session , this will clear the data from configured database
