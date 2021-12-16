@@ -13,10 +13,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @SuppressWarnings("SpringMVCViewInspection")
 @Controller
@@ -42,8 +39,6 @@ public class SignupController{
             @Valid
             @ModelAttribute UserSignUp userSignUp,
             BindingResult result,
-            Model model, 
-            HttpSession session, 
             HttpServletRequest request
     ) {
 
