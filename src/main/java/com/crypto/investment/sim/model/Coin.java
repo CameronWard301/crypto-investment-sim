@@ -1,16 +1,16 @@
 package com.crypto.investment.sim.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+@SuppressWarnings("unused")
 @Entity
 public class Coin {
 
     @Id
     private String CoinCode;
     private String Name;
-    private double CurrentPrice; // in pounds
+    private float CurrentPrice; // in pounds
 
     public Coin() {
     }
@@ -31,10 +31,10 @@ public class Coin {
     public void setName(String name) {
         Name = name;
     }
-    public double getCurrentPrice() {
+    public float getCurrentPrice() {
         return CurrentPrice;
     }
-    public void setCurrentPrice(double currentPrice) {
+    public void setCurrentPrice(float currentPrice) {
         CurrentPrice = currentPrice;
     }
 
