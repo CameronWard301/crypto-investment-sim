@@ -50,6 +50,7 @@
         </div>
     </div>
 
+<%--suppress JspAbsolutePathInspection, HtmlUnknownTarget --%>
     <a href="/addRemoveCurrency" class="btn btn-primary">Add/Remove Currency</a>
 <br>
     <br>

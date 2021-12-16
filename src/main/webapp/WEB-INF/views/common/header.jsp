@@ -10,6 +10,7 @@
         <li><a href="/" class="nav-link px-2 link-dark">Home</a></li>
         <li><a href="/markets" class="nav-link px-2 link-dark">Markets</a></li>
         <li><a href="/buySell" class="nav-link px-2 link-dark">Buy/Sell</a></li>
+        <li><a href="/addRemoveCurrency" class="nav-link px-2 link-dark">Add Funds</a></li>
         <li><a href="/portfolio" class="nav-link px-2 link-dark">Your Portfolio</a></li>
     </ul>
 
