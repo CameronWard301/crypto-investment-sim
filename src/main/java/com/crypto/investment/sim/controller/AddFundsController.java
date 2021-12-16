@@ -10,138 +10,83 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Optional;
+import java.util.Objects;
 
+@SuppressWarnings("SpringMVCViewInspection")
 @Controller
 public class AddFundsController {
 
-
     @InitBinder
-    protected void initBinder(WebDataBinder binder){
+    protected void initBinder(WebDataBinder binder) {
         binder.addValidators(new AddFundsValidator());
     }
 
+    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
     public UserRepository userRepo;
 
+    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
     public CoinRepository coinRepo;
 
-
-    @RequestMapping("/doAddRemoveCurrency")
-    public String addRemove(@Valid @ModelAttribute UserAddFunds userAddFunds, BindingResult result, @RequestParam(value="fiat", required = false) Optional<Integer> id, Model model, HttpSession session, HttpServletRequest request) {
+    @PostMapping("/updateCurrency")
+    public String addRemove(@Valid @ModelAttribute UserAddFunds userAddFunds, BindingResult result, Model model, HttpSession session) {
         User USER_SESSION = (User) session.getAttribute("USER_SESSION");
-        if (USER_SESSION == null){
+        if (USER_SESSION == null) {
             return "redirect:/login";
         }
+        this.addAttributes(model, USER_SESSION);
+        model.addAttribute("selected", userAddFunds.getFiat());
+        if (result.hasErrors()) {
+            return "user/addRemoveCurrency";
+        }
 
-        model.addAttribute("GBP", USER_SESSION.getGBP());
-        model.addAttribute("USD", USER_SESSION.getUSD());
-        model.addAttribute("EUR", USER_SESSION.getEUR());
-
-        model.addAttribute("userAddFunds", new UserAddFunds());
-
-
-
-        if (id.isEmpty()) {
-            //£££
-            if (result.hasErrors()){
-                model.addAttribute("errors", result.getFieldError("value"));
-                return "redirect:addRemoveCurrency?fiat=";
-            }
-            model.addAttribute("sign", "&#163;");
-            model.addAttribute("currency", USER_SESSION.getGBP());
-            USER_SESSION.setGBP((float) USER_SESSION.getGBP()+userAddFunds.getValue());
-            model.addAttribute("fiat","");
-            userRepo.save(USER_SESSION);
-            session.setAttribute("USER_SESSION", USER_SESSION);
-            return "redirect:addRemoveCurrency";
-        } else if (id.get() == 1505) {
+        if (Objects.equals(userAddFunds.getFiat(), "USD")) {
             //$$$
-            if (result.hasErrors()){
-                model.addAttribute("errors", result.getFieldError("value"));
-                return "user/addRemoveCurrency";
-            }
-            model.addAttribute("sign", "$");
-            model.addAttribute("currency", USER_SESSION.getUSD());
-            USER_SESSION.setUSD((float) USER_SESSION.getUSD()+userAddFunds.getValue());
-            model.addAttribute("fiat","1505");
-            userRepo.save(USER_SESSION);
-            session.setAttribute("USER_SESSION", USER_SESSION);
-            return "redirect:addRemoveCurrency?fiat=1505";
-        } else if (id.get() == 1506) {
+            USER_SESSION.setUSD(USER_SESSION.getUSD() + Float.parseFloat(userAddFunds.getValue())); //update the session object
+            model.addAttribute("selected", "USD"); //select the dollar button on page
+            model.addAttribute("USD", USER_SESSION.getUSD()); //add the new value of USD to the page
+            userRepo.save(USER_SESSION); //save the user in the database
+            session.setAttribute("USER_SESSION", USER_SESSION); //overwrite session
+        } else if (Objects.equals(userAddFunds.getFiat(), "EUR")) {
             //€€€
-            if (result.hasErrors()){
-                model.addAttribute("errors", result.getFieldError("value"));
-                return "redirect:addRemoveCurrency?fiat=1506";
-            }
-            model.addAttribute("sign", "&#8364;");
-            model.addAttribute("currency", USER_SESSION.getEUR());
-            USER_SESSION.setEUR((float) USER_SESSION.getEUR()+userAddFunds.getValue());
-            model.addAttribute("fiat","1506");
+            USER_SESSION.setEUR(USER_SESSION.getEUR() + Float.parseFloat(userAddFunds.getValue()));
+            model.addAttribute("selected", "EUR");
+            model.addAttribute("EUR", USER_SESSION.getEUR());
             userRepo.save(USER_SESSION);
             session.setAttribute("USER_SESSION", USER_SESSION);
-            return "redirect:addRemoveCurrency?fiat=1506";
         } else {
             //£££
-            if (result.hasErrors()){
-                model.addAttribute("errors", result.getFieldError("value"));
-                return "redirect:addRemoveCurrency?fiat=";
-            }
-            model.addAttribute("sign", "&#163;");
-            model.addAttribute("currency", USER_SESSION.getGBP());
-            USER_SESSION.setGBP((float) USER_SESSION.getGBP()+userAddFunds.getValue());
-            model.addAttribute("fiat","");
+            USER_SESSION.setGBP(USER_SESSION.getGBP() + Float.parseFloat(userAddFunds.getValue()));
+            model.addAttribute("selected", "GBP");
+            model.addAttribute("GBP", USER_SESSION.getGBP());
             userRepo.save(USER_SESSION);
             session.setAttribute("USER_SESSION", USER_SESSION);
-            return "redirect:addRemoveCurrency";
         }
+        return "user/addRemoveCurrency";
     }
 
-    @RequestMapping("/addRemoveCurrency")
-    public String currency(@ModelAttribute UserAddFunds userAddFunds, @RequestParam("fiat") Optional<Integer> id, Model model, HttpSession session, HttpServletRequest request){
+    @GetMapping("/addRemoveCurrency")
+    public String currency(@ModelAttribute UserAddFunds userAddFunds, Model model, HttpSession session) {
         User USER_SESSION = (User) session.getAttribute("USER_SESSION");
-        if (USER_SESSION == null){
+        if (USER_SESSION == null) {
             return "redirect:/login";
         }
+        this.addAttributes(model, USER_SESSION);
+        model.addAttribute("userAddFunds", new UserAddFunds());
+        model.addAttribute("selected", "GBP");
+
+        return "user/addRemoveCurrency";
+    }
+
+    private void addAttributes(Model model, User USER_SESSION) {
         model.addAttribute("GBP", USER_SESSION.getGBP());
         model.addAttribute("USD", USER_SESSION.getUSD());
         model.addAttribute("EUR", USER_SESSION.getEUR());
 
-        model.addAttribute("userAddFunds", new UserAddFunds());
-
-        if (id.isEmpty()){
-            //£££
-            model.addAttribute("sign", "&#163;");
-            model.addAttribute("currency", USER_SESSION.getGBP());
-            model.addAttribute("fiat","");
-        } else if (id.get() == 1505){
-            //$$$
-            model.addAttribute("sign", "$");
-            model.addAttribute("currency", USER_SESSION.getUSD());
-            model.addAttribute("fiat","1505");
-
-        } else if (id.get() == 1506){
-            //€€€
-            model.addAttribute("sign", "&#8364;");
-            model.addAttribute("currency", USER_SESSION.getEUR());
-            model.addAttribute("fiat","1506");
-
-        } else{
-            //£££
-            model.addAttribute("sign", "&#163;");
-            model.addAttribute("currency", USER_SESSION.getGBP());
-            model.addAttribute("fiat","");
-        }
-
-        return "user/addRemoveCurrency";
     }
 }

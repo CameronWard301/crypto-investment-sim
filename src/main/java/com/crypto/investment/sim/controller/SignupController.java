@@ -51,6 +51,12 @@ public class SignupController{
         user.setUsername(userSignUp.getUsername());
         user.setFirstName(userSignUp.getFirstName());
         user.setLastName(userSignUp.getLastName());
+        user.setGBP(0);
+        user.setEUR(0);
+        user.setUSD(0);
+        user.setBitcoin(0);
+        user.setEthereum(0);
+        user.setCardano(0);
         user.setHashPassword(generatedSecuredPasswordHash);
 
         userRepo.save(user);
