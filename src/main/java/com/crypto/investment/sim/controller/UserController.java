@@ -6,6 +6,14 @@ import com.crypto.investment.sim.model.UserAddFunds;
 import com.crypto.investment.sim.model.UserSignUp;
 import com.crypto.investment.sim.repos.CoinRepository;
 import com.crypto.investment.sim.repos.UserRepository;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.crypto.investment.sim.validator.AddFundsValidator;
 import com.crypto.investment.sim.validator.SignupValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +24,6 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -35,20 +42,25 @@ public class UserController implements Serializable {
 
 
     @GetMapping("/portfolio")
-    public String viewPortfolio(Model model, HttpSession session, HttpServletRequest request) {
+    public String viewPortfolio(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null){
 
             return "redirect:/login";
         }
+        User theUser = (User) USER_SESSION;
+        JSONObject history = new JSONObject();
+        history.put("history",theUser.getPortfolioHistory());
+
         model.addAttribute("user", USER_SESSION);
+        model.addAttribute("portfolioHistory", history);
         this.getLatestCoins(model);
         return "user/portfolio";
     }
 
 
     @GetMapping("/buySell")
-    public String viewBuySell(Model model, HttpSession session, HttpServletRequest request) {
+    public String viewBuySell(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null){
             return "redirect:/login";
@@ -60,7 +72,7 @@ public class UserController implements Serializable {
     }
 
     @PostMapping("/buySell")
-    public String finalTransaction(Model model, HttpSession session, HttpServletRequest request) {
+    public String finalTransaction(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null){
             return "redirect:/login";
@@ -69,7 +81,6 @@ public class UserController implements Serializable {
 
         return "user/buySell";
     }
-
 
     private void getLatestCoins(Model model){
         Optional<Coin> btc = coinRepo.findById("BTC");

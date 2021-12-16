@@ -10,12 +10,22 @@
 <head>
     <jsp:include page="../common/head.jsp"/>
     <title>Crypto Sim | ${user.firstName}'s Portfolio</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<%--suppress HtmlUnknownTarget --%>
+    <script type="text/javascript" src="js/drawGraph.js"></script>
 </head>
 
 <jsp:include page="../common/header.jsp"/>
 
 <body>
 <div class="container">
+    <input id="chartData" type="hidden" value='${portfolioHistory}'>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>Your Portfolio History:</h1>
+            <div style="height: 500px" id="chart"></div>
+        </div>
+    </div>
     <div class="row mb-4">
         <h1 class="mb-4">Fiat:</h1>
 
