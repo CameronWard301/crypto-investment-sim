@@ -2,6 +2,8 @@ package com.crypto.investment.sim.controller;
 
 import com.crypto.investment.sim.model.Coin;
 import com.crypto.investment.sim.model.User;
+import com.crypto.investment.sim.model.UserAddFunds;
+import com.crypto.investment.sim.model.UserSignUp;
 import com.crypto.investment.sim.repos.CoinRepository;
 import com.crypto.investment.sim.repos.UserRepository;
 import org.json.JSONObject;
@@ -12,7 +14,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.crypto.investment.sim.validator.AddFundsValidator;
+import com.crypto.investment.sim.validator.SignupValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.Optional;
 
@@ -25,6 +39,7 @@ public class UserController implements Serializable {
 
     @Autowired
     public CoinRepository coinRepo;
+
 
     @GetMapping("/portfolio")
     public String viewPortfolio(Model model, HttpSession session) {
@@ -65,45 +80,6 @@ public class UserController implements Serializable {
         model.addAttribute("user", USER_SESSION);
 
         return "user/buySell";
-    }
-
-    @RequestMapping("/doAddRemoveCurrency")
-    public String addRemove(@RequestParam(value="fiat", required = false) Optional<Integer> id, @RequestParam int gbp, Model model, HttpSession session) {
-        User USER_SESSION = (User) session.getAttribute("USER_SESSION");
-        if (USER_SESSION == null){
-            return "redirect:/login";
-        }
-        model.addAttribute("user", USER_SESSION);
-
-
-        if (id.isEmpty()) {
-            //If no parameter show default markets in £££
-            model.addAttribute("fiat", 1508);
-        } else if (id.get() == 1505) {
-            //Show markets in $$$
-            model.addAttribute("fiat", 1505);
-        } else if (id.get() == 1506) {
-            //Show markets in €€€
-            model.addAttribute("fiat", 1506);
-        } else {
-            //If a different param value is passed fall back on £££
-            model.addAttribute("fiat", 1508);
-        }
-
-        USER_SESSION.setGBP(USER_SESSION.getGBP() +gbp);
-        userRepo.save(USER_SESSION);
-        session.setAttribute("USER_SESSION", USER_SESSION);
-        return "user/addRemoveCurrency";
-    }
-
-    @RequestMapping("/addRemoveCurrency")
-    public String currency(Model model, HttpSession session){
-        Object USER_SESSION = session.getAttribute("USER_SESSION");
-        if (USER_SESSION == null){
-            return "redirect:/login";
-        }
-        model.addAttribute("user", USER_SESSION);
-        return "user/addRemoveCurrency";
     }
 
     private void getLatestCoins(Model model){

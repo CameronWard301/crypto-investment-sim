@@ -8,6 +8,7 @@
 <head>
     <title>Crypto Sim - Add/Remove Currency</title>
     <jsp:include page="../common/head.jsp"/>
+    <script src="js/markets.js" type="text/javascript"></script>
 </head>
 
 <jsp:include page="../common/header.jsp"/>
@@ -32,13 +33,20 @@
 
     </div>
     <br>
-    <p><b>Available Balance:</b> ${user.GBP}</p>
-    <form action="/doAddRemoveCurrency">
-        <label name="gbp">GBP: </label>
-        <input name="gbp" type="number"/>
+    <p><b>Available Balance:</b> ${sign}${currency}</p>
+    <form:form modelAttribute="userAddFunds" action="/doAddRemoveCurrency?fiat=${fiat}">
+        <form:label path="value">Amount: <br></form:label>
+        <form:input path="value" type="value"/>
+        <span class="text-error">${errors}</span>
 
-        <input type="submit"/>
-    </form>
+        <form:input path="fiat" type="hidden" value="${fiat}"/>
+        <form:input path="GBP" type="hidden" value="${GBP}"/>
+        <form:input path="USD" type="hidden" value="${USD}"/>
+        <form:input path="EUR" type="hidden" value="${EUR}"/>
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary w-30 mb-5">Submit</button>
+    </form:form>
 </div>
 </body>
 </html>
