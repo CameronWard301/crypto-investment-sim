@@ -36,9 +36,9 @@ public class Prices {
         JSONObject prices = sendGetRequest("https://freecurrencyapi.net/api/v2/latest?apikey=d2f70ed0-47cf-11ec-980b-4f59414803c4&base_currency=GBP", Optional.empty());
         if (prices != null){
             //Get each coin from JSON response data
-            double latestUSD = prices.getJSONObject("data").getDouble("USD");
-            double latestEUR = prices.getJSONObject("data").getDouble("EUR");
-            double latestETH = prices.getJSONObject("data").getDouble("ETH");
+            float latestUSD = (float) prices.getJSONObject("data").getDouble("USD");
+            float latestEUR = (float) prices.getJSONObject("data").getDouble("EUR");
+            float latestETH = (float) prices.getJSONObject("data").getDouble("ETH");
 
             //Update Objects
             USD.setCurrentPrice(latestUSD);
@@ -92,8 +92,8 @@ public class Prices {
         double roundedBTC = bdBTC.setScale(10, RoundingMode.HALF_UP).doubleValue();
 
         //Store in DB and get the latest coin object
-        ADA.setCurrentPrice(roundedADA);
-        BTC.setCurrentPrice(roundedBTC);
+        ADA.setCurrentPrice((float) roundedADA);
+        BTC.setCurrentPrice((float) roundedBTC);
         ADA = coinRepo.save(ADA);
         BTC = coinRepo.save(BTC);
 

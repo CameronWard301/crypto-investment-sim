@@ -2,11 +2,11 @@ package com.crypto.investment.sim.model;
 
 import com.sun.istack.NotNull;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
+@SuppressWarnings("unused")
 @Entity
 public class User implements Serializable {
     @Id
@@ -16,6 +16,11 @@ public class User implements Serializable {
     private String lastName;
     private String username;
     private String hashPassword;
+
+    @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn
+    private List<PortfolioBalance> portfolioHistory;
+
     private float bitcoin;
     private float ethereum;
     private float cardano;
@@ -88,7 +93,7 @@ public class User implements Serializable {
         this.cardano = cardano;
     }
 
-    public double getGBP() {
+    public float getGBP() {
         return GBP;
     }
 
@@ -96,7 +101,7 @@ public class User implements Serializable {
         this.GBP = GBP;
     }
 
-    public double getUSD() {
+    public float getUSD() {
         return USD;
     }
 
@@ -104,11 +109,19 @@ public class User implements Serializable {
         this.USD = USD;
     }
 
-    public double getEUR() {
+    public float getEUR() {
         return EUR;
     }
 
     public void setEUR(float EUR) {
         this.EUR = EUR;
+    }
+
+    public List<PortfolioBalance> getPortfolioHistory() {
+        return portfolioHistory;
+    }
+
+    public void setPortfolioHistory(List<PortfolioBalance> portfolioHistory) {
+        this.portfolioHistory = portfolioHistory;
     }
 }
