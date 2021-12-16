@@ -38,7 +38,6 @@
                     <h2 class="text-center">Add Fiat</h2>
                     <p>The first step is to add "Fiat" (Regular currency e.g. pounds, dollars or Euros) to your
                         account.</p>
-                    <%--            TODO:  Add link to add fiat page--%>
                     <p>This will enable you to then trade your fiat with Bitcoin Ethereum or Cardano</p>
                     <p>You can add as much fiat as you like, we recommend starting with a 1000 of your chosen
                         currency</p>
