@@ -58,8 +58,6 @@ public class SignupController{
         user.setLastName(userSignUp.getLastName());
         user.setHashPassword(generatedSecuredPasswordHash);
 
-        System.out.println(generatedSecuredPasswordHash);
-
         userRepo.save(user);
         request.getSession().setAttribute("USER_SESSION", user);
         return "redirect:/portfolio";
