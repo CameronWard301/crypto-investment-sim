@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+
 @SuppressWarnings("SpringMVCViewInspection")
 @Controller
 public class LoginController{
@@ -26,6 +27,11 @@ public class LoginController{
     @RequestMapping("/addLogin")
     public String login(String password, String username, Model model, HttpServletRequest request) {
         List<User> users = userRepo.findByUsername(username);
+        if (password ==  "") {
+            model.addAttribute("passwordError","Password must not be blank");
+            return "user/loginform";
+
+        }
         if (users.size() == 1) {
             // the user was found
             User foundUser = users.get(0);
@@ -38,7 +44,7 @@ public class LoginController{
 
         }
         // username not found
-        model.addAttribute("Error","Username not found");
+        model.addAttribute("usernameError","Username not found");
         return "user/loginform";
 
     }
