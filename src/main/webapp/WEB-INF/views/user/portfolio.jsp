@@ -101,7 +101,7 @@
                 </div>
             </div>
         </div>
-
+        <a href="/resetPortfolio" class="btn btn-primary">Reset Portfolio</a>
     </div>
 </div>
 
