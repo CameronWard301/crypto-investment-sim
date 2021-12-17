@@ -28,13 +28,13 @@ public class UserController implements Serializable {
     @GetMapping("/portfolio")
     public String viewPortfolio(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
-        if (USER_SESSION == null){
+        if (USER_SESSION == null) {
 
             return "redirect:/login";
         }
         User theUser = (User) USER_SESSION;
         JSONObject history = new JSONObject();
-        history.put("history",theUser.getPortfolioHistory());
+        history.put("history", theUser.getPortfolioHistory());
 
         model.addAttribute("user", USER_SESSION);
         model.addAttribute("portfolioHistory", history);
@@ -46,7 +46,7 @@ public class UserController implements Serializable {
     @GetMapping("/buySell")
     public String viewBuySell(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
-        if (USER_SESSION == null){
+        if (USER_SESSION == null) {
             return "redirect:/login";
         }
         model.addAttribute("user", USER_SESSION);
@@ -58,12 +58,42 @@ public class UserController implements Serializable {
     @PostMapping("/buySell")
     public String finalTransaction(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
-        if (USER_SESSION == null){
+        if (USER_SESSION == null) {
             return "redirect:/login";
         }
         model.addAttribute("user", USER_SESSION);
 
         return "user/buySell";
+    }
+
+    @GetMapping("/resetPortfolio")
+    public String reset(Model model, HttpSession session){
+    Object USER_SESSION = session.getAttribute("USER_SESSION");
+            if(USER_SESSION ==null) {
+                return "redirect:/login";
+            }
+
+        model.addAttribute("user",USER_SESSION);
+        return "user/resetPortfolio";
+    }
+
+    @GetMapping("/confirmReset")
+    public String confirm(Model model, HttpSession session){
+        User USER_SESSION = (User) session.getAttribute("USER_SESSION");
+        if(USER_SESSION ==null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("user",USER_SESSION);
+        USER_SESSION.setGBP(0);
+        USER_SESSION.setEUR(0);
+        USER_SESSION.setUSD(0);
+        USER_SESSION.setCardano(0);
+        USER_SESSION.setBitcoin(0);
+        USER_SESSION.setEthereum(0);
+
+        userRepo.save(USER_SESSION);
+        session.setAttribute("USER_SESSION", USER_SESSION);
+        return "user/portfolio";
     }
 
     private void getLatestCoins(Model model){
