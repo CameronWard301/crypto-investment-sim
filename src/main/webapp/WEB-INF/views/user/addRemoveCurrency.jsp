@@ -50,8 +50,8 @@
                     <form:errors path="value" class="text-error"/>
                 </div>
                 <form:input path="GBP" type="hidden" id="GBP" value="${GBP}"/>
-                <form:input path="USD" type="hidden" id="EUR" value="${EUR}"/>
-                <form:input path="EUR" type="hidden" id="USD" value="${USD}"/>
+                <form:input path="EUR" type="hidden" id="EUR" value="${EUR}"/>
+                <form:input path="USD" type="hidden" id="USD" value="${USD}"/>
 
 
                 <button type="submit" class="btn btn-primary w-30 mt-3">Submit</button>
