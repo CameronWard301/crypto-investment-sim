@@ -5,9 +5,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-
 public class AddFundsValidator implements Validator {
 
     @Override
