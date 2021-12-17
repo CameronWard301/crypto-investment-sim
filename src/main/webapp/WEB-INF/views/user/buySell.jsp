@@ -145,32 +145,32 @@
                     var option = select.options[select.selectedIndex];
 
                     if(option.value == "BTC") {
-                        var buyprice = "bitcoin price";
+                        var buyprice = finalBTCprice;
                         var portfoliomon = BTCprice;
 
                     }
                     if(option.value == "ADA") {
-                        var buyprice = "cardano price";
+                        var buyprice = finalADAprice;
                         var portfoliomon = ADAprice;
 
                     }
                     if(option.value == "ETH") {
-                        var buyprice = "ethereum price";
+                        var buyprice = finalETHprice;
                         var portfoliomon = ETHprice;
 
                     }
                     if(option.value == "EUR") {
-                        var buyprice = "euro price";
+                        var buyprice = finalEURprice;
                         var portfoliomon = EURprice;
 
                     }
                     if(option.value == "GBP") {
-                        var buyprice = "pounds price";
+                        var buyprice = finalGBPprice;
                         var portfoliomon = GBPprice;
 
                     }
                     if(option.value == "USD") {
-                        var buyprice = "dollar price";
+                        var buyprice = finalUSDprice;
                         var portfoliomon = USDprice;
 
                     }
@@ -215,9 +215,7 @@
                         <p class="card-text">At Current Value compared to 1 GBP:</p>
                         <input type="text" id="finalsellprice" disabled class="btn btn-outline-primary me-2">
 
-                        <p class="card-text">&#163;${user.bitcoin/btc.getCurrentPrice()}</p>
-                        <p class="card-text">${(user.bitcoin/btc.getCurrentPrice())/(user.bitcoin/btc.getCurrentPrice()+user.ethereum/eth.getCurrentPrice()+user.cardano/ada.getCurrentPrice())*100}%</p>
-                    </div>
+                        </div>
                 </div>
             </div>
 
@@ -229,11 +227,9 @@
                     <input type="text" id="portfoliocurrencymon" disabled class="btn btn-outline-primary me-2">
                     <input type="text" id="finalbuy" disabled class="btn btn-outline-primary me-2">
                     <br></br>
-                    <p class="card-text">At Current Value:</p>
+                    <p class="card-text">At Current Value compared to 1 GBP:</p>
                     <input type="text" id="finalbuyprice" disabled class="btn btn-outline-primary me-2">
-                    <p class="card-text">&#163;${user.ethereum/eth.getCurrentPrice()}</p>
-                    <p class="card-text">${(user.ethereum/eth.getCurrentPrice())/(user.bitcoin/btc.getCurrentPrice()+user.ethereum/eth.getCurrentPrice()+user.cardano/ada.getCurrentPrice())*100}%</p>
-                </div>
+                     </div>
             </div>
         </div>
 
@@ -243,21 +239,24 @@
                 <div class="card-body">
                     <h2 class="card-title">Final Quote: </h2>
                     <p class="card-title">Select Amount to sell: </p>
-
+                    <form action="/portfolio">
                     <input type="number" id="quantity" class="btn btn-outline-primary me-2">
                     <br></br>
                     <p class="card-text">You receive: </p>
-                    <input type="text" id="quote" disabled class="btn btn-outline-primary me-2">
+                    <input name="gbp" type="text" id="quote" disabled class="btn btn-outline-primary me-2">
 
 
                 </div>
-                <button type="button" class="btn btn-outline-primary me-2" onclick="function myFunction() {
+
+                <button type="number" class="btn btn-outline-primary me-2" onclick="function myFunction() {
                 let r = document.getElementById('quantity');
                 let j = document.getElementById('quote').value = r.value/100;
 
 
                 }
                 myFunction()">CONVERT</button>
+                </form>
+
 
             </div>
 
@@ -266,10 +265,7 @@
     </div>
 
 </div>
-    <button type="button" class="btn btn-primary" onclick="function finalizeFunction(){
 
-    }
-       finalizeFunction()"> FINALIZE TRANSACTION </button>
     <br></br>
     <br></br>
 </div>
