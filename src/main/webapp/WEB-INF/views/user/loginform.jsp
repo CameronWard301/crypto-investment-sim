@@ -25,7 +25,7 @@
                         <div class="form-group mb-3">
                             <label for="username">Enter Username:</label>
                             <input id="username" name="username" class="form-control">
-                            <span class="text-error">${Error}</span>
+                            <span class="text-error">${usernameError}</span>
                         </div>
 
                         <div class="form-group mb-3">
