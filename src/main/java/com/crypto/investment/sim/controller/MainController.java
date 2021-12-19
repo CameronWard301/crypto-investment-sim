@@ -32,19 +32,19 @@ public class MainController {
     }
 
     @GetMapping("/markets")
-    public String getMarkets(@RequestParam(value="fiat", required = false) Optional<Integer> id, Model model) {
-        if (id.isEmpty()){
+    public String getMarkets(@RequestParam(value="fiat", required = false) Optional<String> fiat, Model model) {
+        if (fiat.isEmpty()){
             //If no parameter show default markets in £££
-            model.addAttribute("fiat", 1508);
-        } else if (id.get() == 1505){
+            model.addAttribute("fiat", "GBP");
+        } else if (fiat.get().equals("USD")){
             //Show markets in $$$
-            model.addAttribute("fiat", 1505);
-        } else if (id.get() == 1506){
+            model.addAttribute("fiat", "USD");
+        } else if (fiat.get().equals("EUR")){
             //Show markets in €€€
-            model.addAttribute("fiat", 1506);
+            model.addAttribute("fiat", "EUR");
         } else{
             //If a different param value is passed fall back on £££
-            model.addAttribute("fiat", 1508);
+            model.addAttribute("fiat", "GBP");
         }
         return "markets";
     }
