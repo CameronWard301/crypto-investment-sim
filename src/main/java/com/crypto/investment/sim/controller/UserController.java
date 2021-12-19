@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.Optional;
@@ -26,19 +28,32 @@ public class UserController implements Serializable {
 
 
     @GetMapping("/portfolio")
-    public String viewPortfolio(Model model, HttpSession session) {
+    public String viewPortfolio(Model model, HttpSession session, HttpServletRequest request) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null) {
-
+            request.setAttribute("message", "Please login and try again");
             return "redirect:/login";
         }
-        User theUser = (User) USER_SESSION;
-        JSONObject history = new JSONObject();
-        history.put("history", theUser.getPortfolioHistory());
+        User oldUser = (User) USER_SESSION;
+        Optional<User> theUser = userRepo.findById(oldUser.getId()); //get any updates on their portfolio history
+        if (theUser.isEmpty()) return "/"; //redirect if error
 
+        JSONObject history = new JSONObject();
+        history.put("history", theUser.get().getPortfolioHistory()); //Add the history to a JSON object
+
+        session.setAttribute("USER_SESSION", theUser.get()); //Update the Session
         model.addAttribute("user", USER_SESSION);
         model.addAttribute("portfolioHistory", history);
         this.getLatestCoins(model);
+
+        //Check if there account has just been created
+        if (session.getAttribute("message") != null){
+            model.addAttribute("bannerColor", "banner-color-green");
+            model.addAttribute("message", session.getAttribute("message"));
+            session.removeAttribute("message");
+            model.addAttribute("hidden", "show");
+        }
+
         return "user/portfolio";
     }
 
@@ -47,6 +62,7 @@ public class UserController implements Serializable {
     public String viewBuySell(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null) {
+            session.setAttribute("message", "Please login and try again");
             return "redirect:/login";
         }
         model.addAttribute("user", USER_SESSION);
@@ -59,6 +75,7 @@ public class UserController implements Serializable {
     public String finalTransaction(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null) {
+            session.setAttribute("message", "Please login and try again");
             return "redirect:/login";
         }
         model.addAttribute("user", USER_SESSION);
@@ -67,36 +84,41 @@ public class UserController implements Serializable {
     }
 
     @GetMapping("/resetPortfolio")
-    public String reset(Model model, HttpSession session){
-    Object USER_SESSION = session.getAttribute("USER_SESSION");
-            if(USER_SESSION ==null) {
-                return "redirect:/login";
-            }
+    public String reset(Model model, HttpSession session) {
+        Object USER_SESSION = session.getAttribute("USER_SESSION");
+        if (USER_SESSION == null) {
+            session.setAttribute("message", "Please login and try again");
+            return "redirect:/login";
+        }
 
-        model.addAttribute("user",USER_SESSION);
+        model.addAttribute("user", USER_SESSION);
         return "user/resetPortfolio";
     }
 
     @GetMapping("/confirmReset")
-    public String confirm(Model model, HttpSession session){
+    public String confirm(HttpSession session) {
         User USER_SESSION = (User) session.getAttribute("USER_SESSION");
-        if(USER_SESSION ==null) {
+        if (USER_SESSION == null) {
+            session.setAttribute("message", "Please login and try again");
             return "redirect:/login";
         }
-        model.addAttribute("user",USER_SESSION);
-        USER_SESSION.setGBP(0);
-        USER_SESSION.setEUR(0);
-        USER_SESSION.setUSD(0);
-        USER_SESSION.setCardano(0);
-        USER_SESSION.setBitcoin(0);
-        USER_SESSION.setEthereum(0);
+        Optional<User> updatedUser = userRepo.findById(USER_SESSION.getId());
+        if (updatedUser.isEmpty()) return "/";
+        User theUser = updatedUser.get();
+        theUser.setGBP(0);
+        theUser.setEUR(0);
+        theUser.setUSD(0);
+        theUser.setCardano(0);
+        theUser.setBitcoin(0);
+        theUser.setEthereum(0);
+        theUser.removePortfolioHistory();
 
-        userRepo.save(USER_SESSION);
-        session.setAttribute("USER_SESSION", USER_SESSION);
-        return "user/portfolio";
+        userRepo.save(theUser);
+        session.setAttribute("USER_SESSION", theUser);
+        return "redirect:/portfolio";
     }
 
-    private void getLatestCoins(Model model){
+    private void getLatestCoins(Model model) {
         Optional<Coin> btc = coinRepo.findById("BTC");
         btc.ifPresent(value1 -> model.addAttribute("btc", value1));
 

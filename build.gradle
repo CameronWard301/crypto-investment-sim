@@ -29,7 +29,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.1'
 
     //noinspection GradlePackageUpdate
-    runtimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.39'
+    runtimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.54'
     runtimeOnly 'org.apache.taglibs:taglibs-standard-impl:1.2.5'
 }
 

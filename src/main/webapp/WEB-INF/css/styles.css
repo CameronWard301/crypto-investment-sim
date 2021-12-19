@@ -2,6 +2,8 @@
     --primary: #f0bc5e;
     --primary_dark: #e09811;
     --error: #BF211E;
+    --banner_green: #32E981;
+    --banner_red: #ff2e2e
 }
 
 html * {
@@ -18,6 +20,16 @@ html * {
 .card-img-top{
     width: 100%;
     height: 7vw;
+}
+
+.banner-color-green{
+    background-color: var(--banner_green);
+    border-radius: 6px;
+}
+
+.banner-color-red{
+    background-color: var(--banner_red);
+    border-radius: 6px;
 }
 
 a {
@@ -65,7 +77,19 @@ a {
     border-color: var(--primary);
 }
 
+.btn-red:hover{
+    background-color: var(--error) !important;
+    border-color: var(--error) !important;
+}
+
 .btn-primary:hover{
     background-color: var(--primary_dark);
     border-color: var(--primary_dark);
+}
+
+.btn-primary:focus{
+    background-color: var(--primary_dark);
+    border-color: var(--primary_dark);
+    box-shadow: 0 0 0 0.25rem rgba(224, 152, 17, 50);
+
 }

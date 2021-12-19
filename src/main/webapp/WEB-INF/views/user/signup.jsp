@@ -15,6 +15,13 @@
 <body>
 
 <div class="container">
+    <div class="row my-3">
+        <div class="p-3 w-100 col-lg-12 ${bannerColor} alert alert-dismissible fade ${hidden}" role="alert">
+            <span><i>${message}</i></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-8 col-12 mx-auto">
             <h1 class="mb-3">Become a crypto master</h1>
@@ -22,6 +29,7 @@
             <div class="card mt-3">
                 <div class="card-body">
 <%--suppress JspAbsolutePathInspection, HtmlUnknownTarget --%>
+                    <%--@elvariable id="userSignUp" type="com.crypto.investment.sim.model.UserSignUp"--%>
                     <form:form id="userForm" modelAttribute="userSignUp" action="/createAccount">
 
                         <div class="form-group mb-3">

@@ -50,7 +50,8 @@ public class Prices {
             EUR = coinRepo.save(EUR);
             ETH = coinRepo.save(ETH);
 
-            System.out.println("prices: " + prices);
+            logger.info("Fetched latest prices for: ETH, USD, EUR");
+
         } else{
             logger.error("freeCurrency API failed! Returned NULL, could not update the database with the latest values. Previous values kept");
         }
@@ -97,8 +98,7 @@ public class Prices {
         ADA = coinRepo.save(ADA);
         BTC = coinRepo.save(BTC);
 
-        System.out.println("CARDANO: "+ cardano);
-        System.out.println("Bitcoin: " + bitcoin);
+        logger.info("Fetched latest prices for: ADA, BTC");
     }
 
     /**
@@ -128,7 +128,6 @@ public class Prices {
                     response.append(readLine);
                 }
                 in.close();
-                System.out.println("string: " + response);
                 return new JSONObject(response.toString());
             } else {
                 throw new Exception("Error in API Call");

@@ -37,6 +37,7 @@ public class AddFundsController {
     public String addRemove(@Valid @ModelAttribute UserAddFunds userAddFunds, BindingResult result, Model model, HttpSession session) {
         User USER_SESSION = (User) session.getAttribute("USER_SESSION");
         if (USER_SESSION == null) {
+            session.setAttribute("message", "Please login and try again");
             return "redirect:/login";
         }
         this.addAttributes(model, USER_SESSION);
@@ -74,6 +75,7 @@ public class AddFundsController {
     public String currency(@ModelAttribute UserAddFunds userAddFunds, Model model, HttpSession session) {
         User USER_SESSION = (User) session.getAttribute("USER_SESSION");
         if (USER_SESSION == null) {
+            session.setAttribute("message", "Please login and try again");
             return "redirect:/login";
         }
         this.addAttributes(model, USER_SESSION);

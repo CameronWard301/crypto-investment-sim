@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -17,7 +18,7 @@ public class User implements Serializable {
     private String username;
     private String hashPassword;
 
-    @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @OneToMany (fetch = FetchType.EAGER,  orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn
     private List<PortfolioBalance> portfolioHistory;
 
@@ -123,5 +124,15 @@ public class User implements Serializable {
 
     public void setPortfolioHistory(List<PortfolioBalance> portfolioHistory) {
         this.portfolioHistory = portfolioHistory;
+    }
+
+    /**
+     * Iterates through the portfolioHistory and removes each element from the list
+     */
+    public void removePortfolioHistory(){
+        for (Iterator<PortfolioBalance> balanceIterator = portfolioHistory.iterator(); balanceIterator.hasNext();){
+            PortfolioBalance balance = balanceIterator.next();
+            balanceIterator.remove();
+        }
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import javax.servlet.http.HttpServletRequest;
@@ -39,10 +41,14 @@ public class SignupController{
             @Valid
             @ModelAttribute UserSignUp userSignUp,
             BindingResult result,
-            HttpServletRequest request
+            HttpServletRequest request,
+            Model model
     ) {
 
         if (result.hasErrors()){
+            model.addAttribute("bannerColor", "banner-color-red");
+            model.addAttribute("message", "Please fix the errors and try again");
+            model.addAttribute("hidden", "show");
             return "user/signup";
         }
 
@@ -60,7 +66,9 @@ public class SignupController{
         user.setHashPassword(generatedSecuredPasswordHash);
 
         userRepo.save(user);
-        request.getSession().setAttribute("USER_SESSION", user);
+        HttpSession theSession = request.getSession();
+        theSession.setAttribute("USER_SESSION", user);
+        theSession.setAttribute("message", "Success! Account created. Time to add some funds to your account!");
         return "redirect:/portfolio";
 
     }
