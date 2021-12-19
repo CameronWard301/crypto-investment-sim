@@ -9,10 +9,10 @@ $(function () {
     if (fiatParam === null){ // Default pounds
         pound.removeClass("btn-outline-primary");
         pound.addClass("btn-primary");
-    } else if (parseInt(fiatParam, 10) === 1505){ //dollars
+    } else if (fiatParam === "USD"){ //dollars
         dollar.removeClass("btn-outline-primary");
         dollar.addClass("btn-primary");
-    } else if (parseInt(fiatParam, 10) === 1506){ //euros
+    } else if (fiatParam === "EUR"){ //euros
         euro.removeClass("btn-outline-primary");
         euro.addClass("btn-primary");
     } else{ //default to pounds if other value
