@@ -18,15 +18,23 @@
 <jsp:include page="../common/header.jsp"/>
 
 <body>
-<div class="container">
+<div class="container mb-5">
     <input id="chartData" type="hidden" value='${portfolioHistory}'>
+
+    <div class="row my-3">
+        <div class="p-3 w-100 col-lg-12 ${bannerColor} alert alert-dismissible fade ${hidden}" role="alert">
+            <span><i>${message}</i></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-12">
             <h1>Your Portfolio History:</h1>
             <div style="height: 500px" id="chart"></div>
         </div>
     </div>
-    <div class="row mb-4">
+    <div class="row my-4">
         <h1 class="mb-4">Fiat:</h1>
 
         <div class="col-lg-4 mb-2">
@@ -60,11 +68,15 @@
         </div>
     </div>
 
-<%--suppress JspAbsolutePathInspection, HtmlUnknownTarget --%>
-    <a href="/addRemoveCurrency" class="btn btn-primary">Add/Remove Currency</a>
-<br>
-    <br>
-    <div class="row mb-2">
+    <div class="row">
+        <div class="col-lg-6">
+            <%--suppress JspAbsolutePathInspection, HtmlUnknownTarget --%>
+            <a href="/addRemoveCurrency" class="btn btn-primary w-100">Add/Remove Currency</a>
+        </div>
+    </div>
+
+
+    <div class="row my-4">
         <h1 class="mb-4">Your purchased crypto:</h1>
         <div class="col-lg-4 mb-2">
             <div class="card px-5 py-3 h-100 zoom">
@@ -101,8 +113,15 @@
                 </div>
             </div>
         </div>
-        <a href="/resetPortfolio" class="btn btn-primary">Reset Portfolio</a>
     </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <%--suppress JspAbsolutePathInspection, HtmlUnknownTarget --%>
+            <a href="/resetPortfolio" class="btn btn-primary w-100">Reset Portfolio</a>
+        </div>
+    </div>
+
 </div>
 
 </body>

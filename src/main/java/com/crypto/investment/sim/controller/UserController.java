@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.Optional;
@@ -27,10 +28,10 @@ public class UserController implements Serializable {
 
 
     @GetMapping("/portfolio")
-    public String viewPortfolio(Model model, HttpSession session) {
+    public String viewPortfolio(Model model, HttpSession session, HttpServletRequest request) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null) {
-
+            request.setAttribute("message", "Please login and try again");
             return "redirect:/login";
         }
         User oldUser = (User) USER_SESSION;
@@ -44,6 +45,15 @@ public class UserController implements Serializable {
         model.addAttribute("user", USER_SESSION);
         model.addAttribute("portfolioHistory", history);
         this.getLatestCoins(model);
+
+        //Check if there account has just been created
+        if (session.getAttribute("message") != null){
+            model.addAttribute("bannerColor", "banner-color-green");
+            model.addAttribute("message", session.getAttribute("message"));
+            session.removeAttribute("message");
+            model.addAttribute("hidden", "show");
+        }
+
         return "user/portfolio";
     }
 
@@ -52,6 +62,7 @@ public class UserController implements Serializable {
     public String viewBuySell(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null) {
+            session.setAttribute("message", "Please login and try again");
             return "redirect:/login";
         }
         model.addAttribute("user", USER_SESSION);
@@ -64,6 +75,7 @@ public class UserController implements Serializable {
     public String finalTransaction(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null) {
+            session.setAttribute("message", "Please login and try again");
             return "redirect:/login";
         }
         model.addAttribute("user", USER_SESSION);
@@ -75,6 +87,7 @@ public class UserController implements Serializable {
     public String reset(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null) {
+            session.setAttribute("message", "Please login and try again");
             return "redirect:/login";
         }
 
@@ -86,6 +99,7 @@ public class UserController implements Serializable {
     public String confirm(HttpSession session) {
         User USER_SESSION = (User) session.getAttribute("USER_SESSION");
         if (USER_SESSION == null) {
+            session.setAttribute("message", "Please login and try again");
             return "redirect:/login";
         }
         Optional<User> updatedUser = userRepo.findById(USER_SESSION.getId());
