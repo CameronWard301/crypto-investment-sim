@@ -26,7 +26,9 @@
     <br>
     <div class="row">
         <div class="col-lg-12">
-            <a href="/confirmReset" class="btn btn-primary btn-lg">Yes</a>
+<%--suppress JspAbsolutePathInspection, HtmlUnknownTarget --%>
+            <a href="/confirmReset" class="btn btn-red btn-primary btn-lg">Yes</a>
+    <%--suppress JspAbsolutePathInspection, HtmlUnknownTarget --%>
             <a href="/portfolio" class="btn btn-primary btn-lg">No</a>
         </div>
     </div>
