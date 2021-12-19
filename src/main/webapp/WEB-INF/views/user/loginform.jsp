@@ -13,6 +13,12 @@
 <body>
 
 <div class="container">
+    <div class="row my-3">
+        <div class="p-3 w-100 col-lg-12 ${bannerColor} alert alert-dismissible fade ${hidden}" role="alert">
+            <span><i>${message}</i></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-lg-8 col-12 mx-auto">
@@ -21,21 +27,22 @@
             <div class="card mt-3">
                 <div class="card-body">
 <%--suppress JspAbsolutePathInspection, HtmlUnknownTarget --%>
-                    <form id="userForm" action="/addLogin">
+                    <%--@elvariable id="user" type="UserLogin"--%>
+                    <form:form id="userForm" action="/addLogin" modelAttribute="user">
                         <div class="form-group mb-3">
-                            <label for="username">Enter Username:</label>
-                            <input id="username" name="username" class="form-control">
-                            <span class="text-error">${usernameError}</span>
+                            <form:label path="username" for="username">Enter Username:</form:label>
+                            <form:input path="username" id="username" name="username" class="form-control"/>
+                            <form:errors path="username" class="text-error"/>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="password">Enter Password</label>
-                            <input type="password" id="password" class="form-control" name="password">
-                            <span class="text-error">${passwordError}</span>
+                            <form:label path="password" for="password">Enter Password</form:label>
+                            <form:input path="password" type="password" id="password" class="form-control" name="password"/>
+                            <form:errors path="password" class="text-error"/>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100 mb-5">Login</button>
-                    </form>
+                    </form:form>
                     <p>Don't have an account?
                         <%--suppress HtmlUnknownTarget --%>
                         <a href="sign-up">Create one here</a>
@@ -47,6 +54,5 @@
     </div>
 
 </div>
-
 </body>
 </html>
