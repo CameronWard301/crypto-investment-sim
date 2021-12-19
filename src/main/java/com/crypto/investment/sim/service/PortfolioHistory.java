@@ -10,6 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Service that gets each user's total portfolio balance and calculates the value in £. Then stores this
@@ -17,6 +19,8 @@ import java.util.Optional;
  */
 @Service
 public class PortfolioHistory {
+
+    Logger logger = LoggerFactory.getLogger(PortfolioHistory.class);
 
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
@@ -29,6 +33,8 @@ public class PortfolioHistory {
 //    @Scheduled(fixedRate = 60 * 60 * 1000)
     @Scheduled(fixedRate = 300000)
     public void generateHistory(){
+        logger.info("Running generate portfolio task");
+        long startTime = System.nanoTime();
         List<User> users = (List<User>) userRepo.findAll();
         Optional<Coin> DbUSD = coinRepo.findById("USD");
         Optional<Coin> DbEUR = coinRepo.findById("EUR");
@@ -57,8 +63,9 @@ public class PortfolioHistory {
             List<PortfolioBalance> history = theUser.getPortfolioHistory();
             history.add(balance);
             userRepo.save(theUser);
-
         }
+        long elapsedTime = (System.nanoTime() - startTime)/1000000;
+        logger.info("Generated portfolio history for all users in: " + elapsedTime + "ms");
     }
 
 }
