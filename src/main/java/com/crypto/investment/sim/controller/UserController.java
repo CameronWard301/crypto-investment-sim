@@ -28,10 +28,10 @@ public class UserController implements Serializable {
 
 
     @GetMapping("/portfolio")
-    public String viewPortfolio(Model model, HttpSession session, HttpServletRequest request) {
+    public String viewPortfolio(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null) {
-            request.setAttribute("message", "Please login and try again");
+            session.setAttribute("message", "Please login and try again");
             return "redirect:/login";
         }
         User oldUser = (User) USER_SESSION;
