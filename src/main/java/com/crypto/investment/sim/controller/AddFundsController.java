@@ -16,14 +16,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Objects;
 
-@SuppressWarnings("SpringMVCViewInspection")
 @Controller
 public class AddFundsController {
-
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.addValidators(new AddFundsValidator());
-    }
 
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
@@ -32,6 +26,11 @@ public class AddFundsController {
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
     public CoinRepository coinRepo;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder, HttpSession session) {
+        binder.addValidators(new AddFundsValidator(userRepo, session));
+    }
 
     @PostMapping("/updateCurrency")
     public String addRemove(@Valid @ModelAttribute UserAddFunds userAddFunds, BindingResult result, Model model, HttpSession session) {
