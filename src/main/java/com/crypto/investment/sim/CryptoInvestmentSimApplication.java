@@ -1,7 +1,6 @@
 package com.crypto.investment.sim;
 
 import com.crypto.investment.sim.model.Coin;
-import com.crypto.investment.sim.model.User;
 import com.crypto.investment.sim.repos.CoinRepository;
 import com.crypto.investment.sim.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +9,10 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.CacheControl;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @Configuration
@@ -37,30 +34,16 @@ public class CryptoInvestmentSimApplication implements ApplicationRunner, WebMvc
     public UserRepository userRepo;
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         SpringApplication.run(CryptoInvestmentSimApplication.class, args);
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
-        // Register resource handler for images, js and css
-        registry.addResourceHandler("/images/**").addResourceLocations("/WEB-INF/images/")
-                .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
-
-        registry.addResourceHandler("/css/**").addResourceLocations("/WEB-INF/css/")
-                .setCacheControl(CacheControl.maxAge(1, TimeUnit.SECONDS).cachePublic()); //TODO: Change cache timeout
-
-        registry.addResourceHandler("/js/**").addResourceLocations("/WEB-INF/js/")
-                .setCacheControl(CacheControl.maxAge(1, TimeUnit.SECONDS).cachePublic()); //TODO: Change cache timeout
     }
 
     @Override
     public void run(ApplicationArguments args) {
         //Check if coins have already been stored in the DB, if not then store the initial values
         Optional<Coin> coins = coinRepo.findById("BTC");
-        if (coins.isEmpty()){
+        if (coins.isEmpty()) {
             BTC = coinRepo.save(BTC);
             ETH = coinRepo.save(ETH);
             ADA = coinRepo.save(ADA);
