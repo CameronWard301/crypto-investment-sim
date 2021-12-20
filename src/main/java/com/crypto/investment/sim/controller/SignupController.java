@@ -4,6 +4,8 @@ import com.crypto.investment.sim.model.User;
 import com.crypto.investment.sim.model.UserSignUp;
 import com.crypto.investment.sim.repos.UserRepository;
 import com.crypto.investment.sim.validator.SignupValidator;
+import com.github.mkopylec.recaptcha.validation.RecaptchaValidator;
+import com.github.mkopylec.recaptcha.validation.ValidationResult;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,13 +19,16 @@ import javax.validation.Valid;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import javax.servlet.http.HttpServletRequest;
 
-@SuppressWarnings("SpringMVCViewInspection")
 @Controller
 public class SignupController{
 
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
     public UserRepository userRepo;
+
+    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
+    @Autowired
+    private RecaptchaValidator recaptchaValidator;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder){
@@ -33,6 +38,7 @@ public class SignupController{
     @GetMapping("/sign-up")
     public String SignUpForm(@ModelAttribute UserSignUp userSignUp, Model model) {
         model.addAttribute("userSignUp", new UserSignUp());
+        model.addAttribute("captchaMessage", "");
         return "user/signup";
     }
 
@@ -44,8 +50,13 @@ public class SignupController{
             HttpServletRequest request,
             Model model
     ) {
+        ValidationResult captchaResult = recaptchaValidator.validate(request);
 
-        if (result.hasErrors()){
+        if (captchaResult.isFailure()){
+            model.addAttribute("captchaMessage", "Please complete the captcha");
+        }
+
+        if (result.hasErrors() || captchaResult.isFailure()){
             model.addAttribute("bannerColor", "banner-color-red");
             model.addAttribute("message", "Please fix the errors and try again");
             model.addAttribute("hidden", "show");
