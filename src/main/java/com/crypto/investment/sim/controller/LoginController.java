@@ -1,10 +1,8 @@
 package com.crypto.investment.sim.controller;
 
-import com.crypto.investment.sim.model.User;
 import com.crypto.investment.sim.model.UserLogin;
 import com.crypto.investment.sim.repos.UserRepository;
 import com.crypto.investment.sim.validator.LoginValidator;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 
-
-@SuppressWarnings("SpringMVCViewInspection")
 @Controller
 public class LoginController{
 
