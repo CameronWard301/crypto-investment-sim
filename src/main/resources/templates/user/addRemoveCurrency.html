@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Crypto Sim - Add/Remove Currency</title>
+    <object th:include="fragments/head :: head" th:remove="tag"></object>
+    <script src="/static/js/addFunds.js" th:src="@{/js/addFunds.js}" type="text/javascript"></script>
+</head>
+
+<header th:replace="fragments/header :: header"></header>
+
+<body>
+<input type="hidden" id="selected" th:value="${selected}">
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-lg-12">
+            <h1>Add/Remove Currency</h1>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-lg-12">
+            <h3>Select Currency</h3>
+            <button id="poundBtn" class="btn btn-outline-primary">&#163;</button>
+            <!--£-->
+            <button id="dollarBtn" class="btn btn-outline-primary">$</button>
+            <!--$-->
+            <button id="euroBtn" class="btn btn-outline-primary">&#8364;</button>
+            <!--€-->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 col-12">
+            <p id="available"><b>Available Balance:</b></p>
+            <form action="#" th:action="@{/updateCurrency}" th:object="${userAddFunds}" method="post">
+                <input type="hidden" th:field="*{fiat}" value="GBP" id="fiat"/>
+                <div class="form-group">
+                    <label for="value">Amount: <br></label>
+                    <input th:field="*{value}" id="value" class="form-control"/>
+                    <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}" class="text-error"></span>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary w-30 mt-3">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <input type="hidden" id="GBP" name="GBP" th:value="${GBP}"/>
+    <input type="hidden" id="EUR" name="EUR" th:value="${EUR}"/>
+    <input type="hidden" id="USD" name="USD" th:value="${USD}"/>
+
+</div>
+</body>
+</html>
