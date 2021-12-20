@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <jsp:include page="../common/head.jsp"/>
+    <jsp:include page="../fragments/head.html"/>
     <title>Crypto Sim | ${user.firstName}'s Portfolio</title>
 </head>
 
-<jsp:include page="../common/header.jsp"/>
+<jsp:include page="../fragments/header.html"/>
 
 <body>
 <div class="container">
