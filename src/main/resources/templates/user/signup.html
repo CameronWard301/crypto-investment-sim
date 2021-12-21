@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Crypto Sim | Signup</title>
+    <object th:include="fragments/head :: head" th:remove="tag"></object>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+
+<header th:replace="fragments/header :: header"></header>
+
+<body>
+
+<div class="container">
+    <div class="row my-3">
+        <div th:class="'p-3 w-100 col-lg-12 ' + ${bannerColor} + ' alert alert-dismissible fade ' + ${hidden}" role="alert">
+            <span><i th:text="${message}"></i></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 col-12 mx-auto">
+            <h1 class="mb-3">Become a crypto master</h1>
+            <h3>Sign up below to continue</h3>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <form id="userForm" action="#" th:action="@{/createAccount}" th:object="${userSignUp}" method="post">
+
+                        <div class="form-group mb-3">
+                            <label for="username">Enter Username:</label>
+                            <input th:field="*{username}" id="username" class="form-control"/>
+                            <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-error"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="firstName">Enter First Name:</label>
+                            <input th:field="*{firstName}" id="firstName" class="form-control"/>
+                            <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-error"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="lastName">Enter Last Name:</label>
+                            <input th:field="*{lastName}" id="lastName" class="form-control"/>
+                            <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-error"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="password1">Enter Password:</label>
+                            <input th:field="*{password1}" type="password" id="password1" class="form-control"/>
+                            <span th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}" class="text-error"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="password2">Confirm Password:</label>
+                            <input th:field="*{password2}" type="password" id="password2" class="form-control"/>
+                            <span th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}" class="text-error"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <div class="g-recaptcha col-sm-5" th:attr="data-sitekey=${@captchaSettings.getSite()}"></div>
+                            <span id="captchaError" class="text-error" th:text="${captchaMessage}"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mb-5">Sign Up</button>
+
+
+                    </form>
+                    <p>Have an account?
+                        <a th:href="@{/sign-up}">Create one here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

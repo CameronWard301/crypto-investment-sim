@@ -11,12 +11,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-@SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection", "SpringMVCViewInspection"})
+@SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection"})
 @Controller
 public class UserController implements Serializable {
 
@@ -28,25 +29,60 @@ public class UserController implements Serializable {
 
 
     @GetMapping("/portfolio")
-    public String viewPortfolio(Model model, HttpSession session, HttpServletRequest request) {
+    public String viewPortfolio(Model model, HttpSession session) {
         Object USER_SESSION = session.getAttribute("USER_SESSION");
         if (USER_SESSION == null) {
-            request.setAttribute("message", "Please login and try again");
+            session.setAttribute("message", "Please login and try again");
             return "redirect:/login";
         }
+
+        //Get the User from the database
         User oldUser = (User) USER_SESSION;
         Optional<User> theUser = userRepo.findById(oldUser.getId()); //get any updates on their portfolio history
-        if (theUser.isEmpty()) return "/"; //redirect if error
+        if (theUser.isEmpty()) return "redirect:/"; //redirect if error
 
         JSONObject history = new JSONObject();
         history.put("history", theUser.get().getPortfolioHistory()); //Add the history to a JSON object
 
-        session.setAttribute("USER_SESSION", theUser.get()); //Update the Session
-        model.addAttribute("user", USER_SESSION);
-        model.addAttribute("portfolioHistory", history);
-        this.getLatestCoins(model);
+        List<Coin> coinValues = this.getLatestCoins();
+        float BTCAmount = theUser.get().getBitcoin();
+        float ETHAmount = theUser.get().getEthereum();
+        float ADAAmount = theUser.get().getCardano();
+        float GBPAmount = theUser.get().getGBP();
+        float USDAmount = theUser.get().getUSD();
+        float EURAmount = theUser.get().getEUR();
+        float BTCValue = BTCAmount/coinValues.get(0).getCurrentPrice();
+        float ETHValue = ETHAmount/coinValues.get(1).getCurrentPrice();
+        float ADAValue = ADAAmount/coinValues.get(2).getCurrentPrice();
+        float BTCPercentage = (BTCValue / (BTCValue + ETHValue + ADAValue))*100;
+        float ETHPercentage = (ETHValue / (BTCValue + ETHValue + ADAValue))*100;
+        float ADAPercentage = (ADAValue / (BTCValue + ETHValue + ADAValue))*100;
 
-        //Check if there account has just been created
+        //check if divide by zero occurred. If so set the values to 0 rather than NaN
+        if (BTCValue + ETHValue + ADAValue == 0){
+            BTCPercentage = 0;
+            ETHPercentage = 0;
+            ADAPercentage = 0;
+        }
+
+        model.addAttribute("BTCAmount", BTCAmount);
+        model.addAttribute("ETHAmount", ETHAmount);
+        model.addAttribute("ADAAmount", ADAAmount);
+        model.addAttribute("GBPAmount", this.roundFloat(GBPAmount));
+        model.addAttribute("USDAmount", this.roundFloat(USDAmount));
+        model.addAttribute("EURAmount", this.roundFloat(EURAmount));
+        model.addAttribute("BTCValue", this.roundFloat(BTCValue));
+        model.addAttribute("ETHValue", this.roundFloat(ETHValue));
+        model.addAttribute("ADAValue", this.roundFloat(ADAValue));
+        model.addAttribute("BTCPercentage", this.roundFloat(BTCPercentage));
+        model.addAttribute("ETHPercentage", this.roundFloat(ETHPercentage));
+        model.addAttribute("ADAPercentage", this.roundFloat(ADAPercentage));
+        model.addAttribute("portfolioHistory", history);
+        model.addAttribute("firstName", theUser.get().getFirstName());
+        session.setAttribute("USER_SESSION", theUser.get()); //Update the Session
+
+
+        //Check if there account has just been created or have just reset portfolio
         if (session.getAttribute("message") != null){
             model.addAttribute("bannerColor", "banner-color-green");
             model.addAttribute("message", session.getAttribute("message"));
@@ -85,13 +121,13 @@ public class UserController implements Serializable {
 
     @GetMapping("/resetPortfolio")
     public String reset(Model model, HttpSession session) {
-        Object USER_SESSION = session.getAttribute("USER_SESSION");
+        User USER_SESSION = (User) session.getAttribute("USER_SESSION");
         if (USER_SESSION == null) {
             session.setAttribute("message", "Please login and try again");
             return "redirect:/login";
         }
 
-        model.addAttribute("user", USER_SESSION);
+        model.addAttribute("firstName", USER_SESSION.getFirstName());
         return "user/resetPortfolio";
     }
 
@@ -103,7 +139,7 @@ public class UserController implements Serializable {
             return "redirect:/login";
         }
         Optional<User> updatedUser = userRepo.findById(USER_SESSION.getId());
-        if (updatedUser.isEmpty()) return "/";
+        if (updatedUser.isEmpty()) return "redirect:/";
         User theUser = updatedUser.get();
         theUser.setGBP(0);
         theUser.setEUR(0);
@@ -115,6 +151,7 @@ public class UserController implements Serializable {
 
         userRepo.save(theUser);
         session.setAttribute("USER_SESSION", theUser);
+        session.setAttribute("message", "Success! Your account has been reset");
         return "redirect:/portfolio";
     }
 
@@ -127,6 +164,32 @@ public class UserController implements Serializable {
 
         Optional<Coin> ada = coinRepo.findById("ADA");
         ada.ifPresent(value3 -> model.addAttribute("ada", value3));
+
+        Optional<Coin> gbp = coinRepo.findById("GBP");
+        gbp.ifPresent(value4 -> model.addAttribute("gbp", value4));
+
+        Optional<Coin> eur = coinRepo.findById("EUR");
+        eur.ifPresent(value5 -> model.addAttribute("eur", value5));
+
+        Optional<Coin> usd = coinRepo.findById("USD");
+        usd.ifPresent(value6 -> model.addAttribute("usd", value6));
+    }
+
+    private List<Coin> getLatestCoins() {
+        List<Coin> coinValues = new ArrayList<>();
+        Optional<Coin> btc = coinRepo.findById("BTC");
+        btc.ifPresent(coinValues::add);
+
+        Optional<Coin> eth = coinRepo.findById("ETH");
+        eth.ifPresent(coinValues::add);
+
+        Optional<Coin> ada = coinRepo.findById("ADA");
+        ada.ifPresent(coinValues::add);
+        return coinValues;
+    }
+
+    private String roundFloat(float f){
+        return String.format("%.2f", f);
     }
 
 }

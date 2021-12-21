@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Crypto Sim | Login</title>
+    <object th:include="fragments/head :: head" th:remove="tag"></object>
+</head>
+
+<header th:replace="fragments/header :: header"></header>
+
+<body>
+
+<div class="container">
+    <div class="row my-3">
+        <div th:class="'p-3 w-100 col-lg-12 ' + ${bannerColor} + ' alert alert-dismissible fade '+ ${hidden}"
+             role="alert">
+            <span><i th:text="${message}"></i></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 col-12 mx-auto">
+            <h1 class="mb-3">Welcome Existing Member</h1>
+            <h3>Please login to continue</h3>
+            <div class="card mt-3">
+                <div class="card-body">
+
+                    <form id="userForm" action="#" th:action="@{/addLogin}" th:object="${user}" method="post">
+                        <div class="form-group mb-3">
+                            <label for="username">Enter Username:</label>
+                            <input th:field="*{username}" id="username" name="username" class="form-control"/>
+                            <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+                                  class="text-error"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="password">Enter Password</label>
+                            <input th:field="*{password}" type="password" id="password" class="form-control"
+                                   name="password"/>
+                            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                  class="text-error"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mb-5">Login</button>
+                    </form>
+                    <p>Don't have an account?
+                        <a th:href="@{/sign-up}">Create one here</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -12,8 +12,18 @@ repositories {
     mavenCentral()
 }
 
+apply plugin: 'idea'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
+
 dependencies {
     implementation 'org.mindrot:jbcrypt:0.4'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.6.1'
     implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.1'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.1'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.6.1'
@@ -21,16 +31,13 @@ dependencies {
     implementation 'org.springframework.session:spring-session-core:2.6.0'
     implementation 'org.springframework.session:spring-session-jdbc:2.6.0'
     implementation 'mysql:mysql-connector-java:8.0.25'
-    runtimeOnly 'javax.servlet:jstl:1.2' // helpful JSP tags
-
+    implementation 'com.github.mkopylec:recaptcha-spring-boot-starter:2.3.1'
     implementation 'org.json:json:20211205'
     developmentOnly 'org.springframework.boot:spring-boot-devtools:2.6.1'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
+    runtimeOnly 'org.apache.taglibs:taglibs-standard-impl:1.2.5'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.1'
 
-    //noinspection GradlePackageUpdate
-    runtimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.54'
-    runtimeOnly 'org.apache.taglibs:taglibs-standard-impl:1.2.5'
 }
 
 test {

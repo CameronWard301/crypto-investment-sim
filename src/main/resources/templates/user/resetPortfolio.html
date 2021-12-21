@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <object th:include="fragments/head :: head" th:remove="tag"></object>
+    <title th:text="'Crypto Sim | '+ ${firstName} +'\'s Portfolio'"></title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<header th:replace="fragments/header :: header"></header>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>Are you sure you want to reset all fiat, crypto values and history in your portfolio to 0?</h2>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-12">
+            <a th:href="@{/confirmReset}" class="btn btn-red btn-primary btn-lg">Yes</a>
+            <a th:href="@{/portfolio}" class="btn btn-primary btn-lg">No</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

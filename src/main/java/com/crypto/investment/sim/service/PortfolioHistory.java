@@ -31,7 +31,7 @@ public class PortfolioHistory {
     public UserRepository userRepo;
 
 //    @Scheduled(fixedRate = 60 * 60 * 1000)
-    @Scheduled(fixedRate = 300000)
+    @Scheduled(fixedRateString = "${portfolio.history.frequency:30000}")
     public void generateHistory(){
         logger.info("Running generate portfolio task");
         long startTime = System.nanoTime();
