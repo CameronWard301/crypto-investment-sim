@@ -1,18 +1,16 @@
-<% response.setIntHeader("Refresh", 300); %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <jsp:include page="../fragments/head.html"/>
+    <object th:include="fragments/head :: head" th:remove="tag"></object>
     <title>Crypto Sim | ${user.firstName}'s Portfolio</title>
 </head>
 
-<jsp:include page="../fragments/header.html"/>
+<header th:replace="fragments/header :: header"></header>
 
 <body>
 <div class="container">
     <form>
-        <form:form action="/buySell" modelAttribute="coin">
+        <form th:action="@{/buySell}" th:object="${coin}">
         <br class="row mb-4">
         <h1 class="mb-4">CURRENCY TO BE SOLD:</h1>
 
@@ -64,19 +62,19 @@
                                 <option value="USD">USD</option>
                                 <option value="GBP">GBP</option>
                             </select>
-                            <input id='userBTC' type='hidden' value="${user.bitcoin}" />
-                            <input id='userADA' type='hidden' value="${user.cardano}" />
-                            <input id='userEUR' type='hidden' value="${user.EUR}" />
-                            <input id='userETH' type='hidden' value="${user.ethereum}" />
-                            <input id='userGBP' type='hidden' value="${user.GBP}" />
-                            <input id='userUSD' type='hidden' value="${user.USD}" />
+                            <input id='userBTC' type='hidden' th:value="${user.bitcoin}" />
+                            <input id='userADA' type='hidden' th:value="${user.cardano}" />
+                            <input id='userEUR' type='hidden' th:value="${user.EUR}" />
+                            <input id='userETH' type='hidden' th:value="${user.ethereum}" />
+                            <input id='userGBP' type='hidden' th:value="${user.GBP}" />
+                            <input id='userUSD' type='hidden' th:value="${user.USD}" />
 
-                            <input id='BTCprice' type='hidden' value="${btc.getCurrentPrice()}" />
-                            <input id='ADAprice' type='hidden' value="${ada.getCurrentPrice()}" />
-                            <input id='EURprice' type='hidden' value="${eur.getCurrentPrice()}" />
-                            <input id='ETHprice' type='hidden' value="${eth.getCurrentPrice()}" />
-                            <input id='GBPprice' type='hidden' value="${gbp.getCurrentPrice()}" />
-                            <input id='USDprice' type='hidden' value="${usd.getCurrentPrice()}" />
+                            <input id='BTCprice' type='hidden' th:value="${btc.getCurrentPrice()}" />
+                            <input id='ADAprice' type='hidden' th:value="${ada.getCurrentPrice()}" />
+                            <input id='EURprice' type='hidden' th:value="${eur.getCurrentPrice()}" />
+                            <input id='ETHprice' type='hidden' th:value="${eth.getCurrentPrice()}" />
+                            <input id='GBPprice' type='hidden' th:value="${gbp.getCurrentPrice()}" />
+                            <input id='USDprice' type='hidden' th:value="${usd.getCurrentPrice()}" />
 
 
 
@@ -184,7 +182,7 @@
 
                 update();
             </script>
-            </form:form>
+            </form>
 
 
 
@@ -211,12 +209,12 @@
 
                         <input type="text" id="portfoliocurrency" disabled class="btn btn-outline-primary me-2">
                         <input type="text" id="finalsell" disabled class="btn btn-outline-primary me-2">
-                        <br></br>
+                        <br>
                         <p class="card-text">At Current Value compared to 1 GBP:</p>
                         <input type="text" id="finalsellprice" disabled class="btn btn-outline-primary me-2">
 
-                        <p class="card-text">&#163;${user.bitcoin/btc.getCurrentPrice()}</p>
-                        <p class="card-text">${(user.bitcoin/btc.getCurrentPrice())/(user.bitcoin/btc.getCurrentPrice()+user.ethereum/eth.getCurrentPrice()+user.cardano/ada.getCurrentPrice())*100}%</p>
+                        <p class="card-text" th:text="'&#163;'+${user.bitcoin/btc.getCurrentPrice()}"></p>
+<!--                        <p class="card-text" th:text="${(user.bitcoin/btc.getCurrentPrice())/(user.bitcoin/btc.getCurrentPrice()+user.ethereum/eth.getCurrentPrice()+user.cardano/ada.getCurrentPrice())*100}+'%'"></p>-->
                     </div>
                 </div>
             </div>
@@ -228,11 +226,11 @@
                     <h2 class="card-title">You want: </h2>
                     <input type="text" id="portfoliocurrencymon" disabled class="btn btn-outline-primary me-2">
                     <input type="text" id="finalbuy" disabled class="btn btn-outline-primary me-2">
-                    <br></br>
+                    <br>
                     <p class="card-text">At Current Value:</p>
                     <input type="text" id="finalbuyprice" disabled class="btn btn-outline-primary me-2">
-                    <p class="card-text">&#163;${user.ethereum/eth.getCurrentPrice()}</p>
-                    <p class="card-text">${(user.ethereum/eth.getCurrentPrice())/(user.bitcoin/btc.getCurrentPrice()+user.ethereum/eth.getCurrentPrice()+user.cardano/ada.getCurrentPrice())*100}%</p>
+                    <p class="card-text" th:text="'&#163;'+${user.ethereum/eth.getCurrentPrice()}"></p>
+<!--                    <p class="card-text" th:text="${(user.ethereum/eth.getCurrentPrice())/(user.bitcoin/btc.getCurrentPrice()+user.ethereum/eth.getCurrentPrice()+user.cardano/ada.getCurrentPrice())*100}+'%'"></p>-->
                 </div>
             </div>
         </div>
@@ -245,7 +243,7 @@
                     <p class="card-title">Select Amount to sell: </p>
 
                     <input type="number" id="quantity" class="btn btn-outline-primary me-2">
-                    <br></br>
+                    <br>
                     <p class="card-text">You receive: </p>
                     <input type="text" id="quote" disabled class="btn btn-outline-primary me-2">
 
@@ -270,8 +268,8 @@
 
     }
        finalizeFunction()"> FINALIZE TRANSACTION </button>
-    <br></br>
-    <br></br>
+    <br>
+    <br>
 </div>
 </body>
 </html>
