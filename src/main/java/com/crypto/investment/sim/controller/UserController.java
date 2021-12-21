@@ -164,6 +164,15 @@ public class UserController implements Serializable {
 
         Optional<Coin> ada = coinRepo.findById("ADA");
         ada.ifPresent(value3 -> model.addAttribute("ada", value3));
+
+        Optional<Coin> gbp = coinRepo.findById("GBP");
+        gbp.ifPresent(value4 -> model.addAttribute("gbp", value4));
+
+        Optional<Coin> eur = coinRepo.findById("EUR");
+        eur.ifPresent(value5 -> model.addAttribute("eur", value5));
+
+        Optional<Coin> usd = coinRepo.findById("USD");
+        usd.ifPresent(value6 -> model.addAttribute("usd", value6));
     }
 
     private List<Coin> getLatestCoins() {
