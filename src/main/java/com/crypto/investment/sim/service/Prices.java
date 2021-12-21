@@ -1,6 +1,8 @@
 package com.crypto.investment.sim.service;
 
+import com.crypto.investment.sim.components.API_KEYS;
 import com.crypto.investment.sim.components.CoinRequestSettings;
+import com.crypto.investment.sim.exceptions.GET_Exception;
 import com.crypto.investment.sim.repos.CoinRepository;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -32,6 +34,10 @@ public class Prices {
     @Autowired
     private CoinRequestSettings coinProperties;
 
+    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
+    @Autowired
+    private API_KEYS api_keys;
+
     /**
      * Get the Latest prices and store in database for USD, EUR, ETH and BTC Coins
      * Runs every 5 minutes
@@ -42,7 +48,10 @@ public class Prices {
             logger.info("Did not fetch USD_EUR_ETH_Prices | Reason: Disabled in config");
             return;
         }
-        JSONObject prices = sendGetRequest("https://freecurrencyapi.net/api/v2/latest?apikey=d2f70ed0-47cf-11ec-980b-4f59414803c4&base_currency=GBP", Optional.empty());
+
+        String url = "https://freecurrencyapi.net/api/v2/latest?apikey="+api_keys.getFreecurrencyAPI()+"&base_currency=GBP";
+        JSONObject prices = sendGetRequest(url, Optional.empty());
+
         if (prices != null){
             //Get each coin from JSON response data
             float latestUSD = (float) prices.getJSONObject("data").getDouble("USD");
@@ -77,7 +86,7 @@ public class Prices {
             logger.info("Did not fetch ADA_BTC_Prices | Reason: Disabled in config");
             return;
         }
-        List<List<String>> headers = List.of(List.of("X-CMC_PRO_API_KEY", "fa5c7c88-f345-46a6-8254-1e278c5ac404"));
+        List<List<String>> headers = List.of(List.of("X-CMC_PRO_API_KEY", api_keys.getCoinmarketcapAPI()));
         JSONObject cardano = sendGetRequest("https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=ADA&convert=GBP", Optional.of(headers));
         JSONObject bitcoin = sendGetRequest("https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC&convert=GBP", Optional.of(headers));
 
@@ -143,10 +152,13 @@ public class Prices {
                 in.close();
                 return new JSONObject(response.toString());
             } else {
-                throw new Exception("Error in API Call");
+                throw new GET_Exception(connection.getResponseMessage(), connection.getURL(), connection.getResponseCode());
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (GET_Exception ex) {
+            logger.error("Invalid GET Request, response: "+ ex.getMessage() + ". With error code: " + ex.getError_code() + ". For url: " + ex.getUrl());
+            return null;
+        } catch (Exception e){
+            logger.error(e.getMessage());
             return null;
         }
     }
