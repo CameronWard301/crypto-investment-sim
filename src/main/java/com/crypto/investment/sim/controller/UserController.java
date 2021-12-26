@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
@@ -93,32 +92,6 @@ public class UserController implements Serializable {
         return "user/portfolio";
     }
 
-
-    @GetMapping("/buySell")
-    public String viewBuySell(Model model, HttpSession session) {
-        Object USER_SESSION = session.getAttribute("USER_SESSION");
-        if (USER_SESSION == null) {
-            session.setAttribute("message", "Please login and try again");
-            return "redirect:/login";
-        }
-        model.addAttribute("user", USER_SESSION);
-        this.getLatestCoins(model);
-
-        return "user/buySell";
-    }
-
-    @PostMapping("/buySell")
-    public String finalTransaction(Model model, HttpSession session) {
-        Object USER_SESSION = session.getAttribute("USER_SESSION");
-        if (USER_SESSION == null) {
-            session.setAttribute("message", "Please login and try again");
-            return "redirect:/login";
-        }
-        model.addAttribute("user", USER_SESSION);
-
-        return "user/buySell";
-    }
-
     @GetMapping("/resetPortfolio")
     public String reset(Model model, HttpSession session) {
         User USER_SESSION = (User) session.getAttribute("USER_SESSION");
@@ -153,26 +126,6 @@ public class UserController implements Serializable {
         session.setAttribute("USER_SESSION", theUser);
         session.setAttribute("message", "Success! Your account has been reset");
         return "redirect:/portfolio";
-    }
-
-    private void getLatestCoins(Model model) {
-        Optional<Coin> btc = coinRepo.findById("BTC");
-        btc.ifPresent(value1 -> model.addAttribute("btc", value1));
-
-        Optional<Coin> eth = coinRepo.findById("ETH");
-        eth.ifPresent(value2 -> model.addAttribute("eth", value2));
-
-        Optional<Coin> ada = coinRepo.findById("ADA");
-        ada.ifPresent(value3 -> model.addAttribute("ada", value3));
-
-        Optional<Coin> gbp = coinRepo.findById("GBP");
-        gbp.ifPresent(value4 -> model.addAttribute("gbp", value4));
-
-        Optional<Coin> eur = coinRepo.findById("EUR");
-        eur.ifPresent(value5 -> model.addAttribute("eur", value5));
-
-        Optional<Coin> usd = coinRepo.findById("USD");
-        usd.ifPresent(value6 -> model.addAttribute("usd", value6));
     }
 
     private List<Coin> getLatestCoins() {
