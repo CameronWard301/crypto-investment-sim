@@ -15,7 +15,6 @@ $(function () {
         'success': function(resp) {
             if(resp) {
                 $('#login-btn').html("Logout").attr("href", "/invalidate/session")
-                console.log("success, logged in")
             }
         }
     });
