@@ -1,275 +1,177 @@
 <!DOCTYPE>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <object th:include="fragments/head :: head" th:remove="tag"></object>
-    <title>Crypto Sim | ${user.firstName}'s Portfolio</title>
+    <title>Crypto Sim | Crypto Exchange</title>
+    <script type="text/javascript" src="../../static/js/buy-sell.js" th:src="@{/js/buy-sell.js}"></script>
 </head>
 
 <header th:replace="fragments/header :: header"></header>
 
 <body>
+
+<!--@thymesVar id="btc" type="com.crypto.investment.sim.model.Coin"-->
+<!--@thymesVar id="eth" type="com.crypto.investment.sim.model.Coin"-->
+<!--@thymesVar id="ada" type="com.crypto.investment.sim.model.Coin"-->
+<!--@thymesVar id="eur" type="com.crypto.investment.sim.model.Coin"-->
+<!--@thymesVar id="usd" type="com.crypto.investment.sim.model.Coin"-->
+<input type="hidden" id="btc-value" th:value="${btc.getCurrentPrice()}">
+<input type="hidden" id="eth-value" th:value="${eth.getCurrentPrice()}">
+<input type="hidden" id="ada-value" th:value="${ada.getCurrentPrice()}">
+<input type="hidden" id="eur-value" th:value="${eur.getCurrentPrice()}">
+<input type="hidden" id="usd-value" th:value="${usd.getCurrentPrice()}">
+
+<!--@thymesVar id="user" type="com.crypto.investment.sim.model.User"-->
+<input type="hidden" id="gbp_available" th:value="${user.GBP}">
+<input type="hidden" id="usd_available" th:value="${user.USD}">
+<input type="hidden" id="eur_available" th:value="${user.EUR}">
+<input type="hidden" id="btc_available" th:value="${user.bitcoin}">
+<input type="hidden" id="eth_available" th:value="${user.ethereum}">
+<input type="hidden" id="ada_available" th:value="${user.cardano}">
+
+
 <div class="container">
-    <form>
-        <form th:action="@{/buySell}" th:object="${coin}">
-        <br class="row mb-4">
-        <h1 class="mb-4">CURRENCY TO BE SOLD:</h1>
 
-            <div style="width:1200px; margin:0 auto;">
-            <div class="card px-5 py-3 h-100 zoom">
-                <svg class="card-img-top w-25 mx-auto filter-primary" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 16.166c0-4.289-4.465-5.483-7.887-7.091-2.079-1.079-1.816-3.658 1.162-3.832 1.652-.1 3.351.39 4.886.929l.724-3.295c-1.814-.551-3.437-.803-4.885-.841v-2.036h-2v2.134c-3.89.535-5.968 2.975-5.968 5.7 0 4.876 5.693 5.62 7.556 6.487 2.54 1.136 2.07 3.5-.229 4.021-1.993.451-4.538-.337-6.45-1.079l-.909 3.288c1.787.923 3.931 1.417 6 1.453v1.996h2v-2.105c3.313-.464 6.005-2.293 6-5.729z"></path></svg>
-                <div class="card-body">
-                    <h4>
-
-                    <label for="sell">Select Crypto/Fiat</label>
-                    </h4>
-                    <select name="sell" id="sell" class="btn btn-outline-primary me-2" onChange="update()">
-                        <option value="BTC">BTC</option>
-                        <option value="ETH">ETH</option>
-                        <option value="ADA">ADA</option>
-                        <option value="EUR">EUR</option>
-                        <option value="USD">USD</option>
-                        <option value="GBP">GBP</option>
-                    </select>
-
-                    <style>
-                        h4 {text-align: center;}
-                        select {text-align: center;}
-                        div {text-align: center;}
-                    </style>
-
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>Buy or exchange crypto</h1>
         </div>
-            <br>
-
-            <div class="row mb-4">
-            <h1 class="mb-4">CURRENCY TO BE BOUGHT:</h1>
-
-            <form class="col-lg-4 mb-2">
-                <div style="width:1220px; margin:0 auto;">
-                <div class="card px-5 py-3 h-100 zoom">
-                        <svg class="card-img-top w-25 mx-auto filter-primary" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 16.166c0-4.289-4.465-5.483-7.887-7.091-2.079-1.079-1.816-3.658 1.162-3.832 1.652-.1 3.351.39 4.886.929l.724-3.295c-1.814-.551-3.437-.803-4.885-.841v-2.036h-2v2.134c-3.89.535-5.968 2.975-5.968 5.7 0 4.876 5.693 5.62 7.556 6.487 2.54 1.136 2.07 3.5-.229 4.021-1.993.451-4.538-.337-6.45-1.079l-.909 3.288c1.787.923 3.931 1.417 6 1.453v1.996h2v-2.105c3.313-.464 6.005-2.293 6-5.729z"></path></svg>
-                        <div class="card-body">
-                            <h4>
-
-                                <label for="sell">Select Crypto/Fiat</label>
-                            </h4>
-                            <select name="buy" id="buy" class="btn btn-outline-primary me-2" onChange="update()">
-                                <option value="BTC">BTC</option>
-                                <option value="ETH">ETH</option>
-                                <option value="ADA">ADA</option>
-                                <option value="EUR">EUR</option>
-                                <option value="USD">USD</option>
-                                <option value="GBP">GBP</option>
-                            </select>
-                            <input id='userBTC' type='hidden' th:value="${user.bitcoin}" />
-                            <input id='userADA' type='hidden' th:value="${user.cardano}" />
-                            <input id='userEUR' type='hidden' th:value="${user.EUR}" />
-                            <input id='userETH' type='hidden' th:value="${user.ethereum}" />
-                            <input id='userGBP' type='hidden' th:value="${user.GBP}" />
-                            <input id='userUSD' type='hidden' th:value="${user.USD}" />
-
-                            <input id='BTCprice' type='hidden' th:value="${btc.getCurrentPrice()}" />
-                            <input id='ADAprice' type='hidden' th:value="${ada.getCurrentPrice()}" />
-                            <input id='EURprice' type='hidden' th:value="${eur.getCurrentPrice()}" />
-                            <input id='ETHprice' type='hidden' th:value="${eth.getCurrentPrice()}" />
-                            <input id='GBPprice' type='hidden' th:value="${gbp.getCurrentPrice()}" />
-                            <input id='USDprice' type='hidden' th:value="${usd.getCurrentPrice()}" />
-
-
-
-                            <style>
-                                h4 {text-align: center;}
-                                select {text-align: center;}
-                                div {text-align: center;}
-                            </style>
-
-                        </div>
-                    </div>
-                </div>
-
-
-            <script type="text/javascript">
-                function update() {
-                    var select = document.getElementById('sell');
-                    var option = select.options[select.selectedIndex];
-                    var BTCprice = document.getElementById("userBTC").value;
-                    var ETHprice = document.getElementById("userETH").value;
-                    var ADAprice = document.getElementById("userADA").value;
-                    var USDprice = document.getElementById("userUSD").value;
-                    var EURprice = document.getElementById("userEUR").value;
-                    var GBPprice = document.getElementById("userGBP").value;
-
-
-                    var finalBTCprice = document.getElementById("BTCprice").value;
-                    var finalETHprice = document.getElementById("ETHprice").value;
-                    var finalADAprice = document.getElementById("ADAprice").value;
-                    var finalUSDprice = document.getElementById("USDprice").value;
-                    var finalEURprice = document.getElementById("EURprice").value;
-                    var finalGBPprice = document.getElementById("GBPprice").value;
-
-                    if(option.value == "BTC") {
-                        var sellprice = finalBTCprice;
-                        var portfoliocurr = BTCprice;
-                    }
-                    if(option.value == "ADA") {
-                        var sellprice = finalADAprice;
-                        var portfoliocurr = ADAprice;
-                    }
-                    if(option.value == "ETH") {
-                        var sellprice = finalETHprice;
-                        var portfoliocurr = ETHprice;
-                    }
-                    if(option.value == "EUR") {
-                        var sellprice = finalEURprice;
-                        var portfoliocurr = EURprice;
-                    }
-                    if(option.value == "GBP") {
-                        var sellprice = finalGBPprice;
-                        var portfoliocurr = GBPprice;
-                    }
-                    if(option.value == "USD") {
-                        var sellprice = finalUSDprice;
-                        var portfoliocurr = USDprice;
-                    }
-
-                    document.getElementById('finalsell').value = option.value;
-                    document.getElementById('finalsellprice').value = sellprice;
-                    document.getElementById('portfoliocurrency').value = portfoliocurr;
-
-
-
-                    var select = document.getElementById('buy');
-                    var option = select.options[select.selectedIndex];
-
-                    if(option.value == "BTC") {
-                        var buyprice = "bitcoin price";
-                        var portfoliomon = BTCprice;
-
-                    }
-                    if(option.value == "ADA") {
-                        var buyprice = "cardano price";
-                        var portfoliomon = ADAprice;
-
-                    }
-                    if(option.value == "ETH") {
-                        var buyprice = "ethereum price";
-                        var portfoliomon = ETHprice;
-
-                    }
-                    if(option.value == "EUR") {
-                        var buyprice = "euro price";
-                        var portfoliomon = EURprice;
-
-                    }
-                    if(option.value == "GBP") {
-                        var buyprice = "pounds price";
-                        var portfoliomon = GBPprice;
-
-                    }
-                    if(option.value == "USD") {
-                        var buyprice = "dollar price";
-                        var portfoliomon = USDprice;
-
-                    }
-
-                    document.getElementById('finalbuy').value = option.value;
-                    document.getElementById('finalbuyprice').value = buyprice;
-                    document.getElementById('portfoliocurrencymon').value = portfoliomon;
-
-
-                }
-
-                update();
-            </script>
-            </form>
-
-
-
-
-
-
-                
-
-            </form>
-
-            </div>
-
-        </form>
-
-
-    <div class="row mb-2">
-        <h1 class="mb-4">Transaction Overview:</h1>
-        <div class="row mb-2">
-            <div class="col-lg-4 mb-2">
-                <div class="card px-5 py-3 h-100 zoom">
-                    <img class="card-img-top w-25 mx-auto" src="https://cryptologos.cc/logos/bitcoin-btc-logo.svg?v=014" alt="Bitcoin">
-                    <div class="card-body">
-                        <h2 class="card-title">You have: </h2>
-
-                        <input type="text" id="portfoliocurrency" disabled class="btn btn-outline-primary me-2">
-                        <input type="text" id="finalsell" disabled class="btn btn-outline-primary me-2">
-                        <br>
-                        <p class="card-text">At Current Value compared to 1 GBP:</p>
-                        <input type="text" id="finalsellprice" disabled class="btn btn-outline-primary me-2">
-
-                        <p class="card-text" th:text="'&#163;'+${user.bitcoin/btc.getCurrentPrice()}"></p>
-<!--                        <p class="card-text" th:text="${(user.bitcoin/btc.getCurrentPrice())/(user.bitcoin/btc.getCurrentPrice()+user.ethereum/eth.getCurrentPrice()+user.cardano/ada.getCurrentPrice())*100}+'%'"></p>-->
-                    </div>
-                </div>
-            </div>
-
-        <div class="col-lg-4 mb-2">
-            <div class="card px-5 py-3 h-100 zoom">
-                <img class="card-img-top w-25 mx-auto" src="https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=014" alt="Ethereum">
-                <div class="card-body">
-                    <h2 class="card-title">You want: </h2>
-                    <input type="text" id="portfoliocurrencymon" disabled class="btn btn-outline-primary me-2">
-                    <input type="text" id="finalbuy" disabled class="btn btn-outline-primary me-2">
-                    <br>
-                    <p class="card-text">At Current Value:</p>
-                    <input type="text" id="finalbuyprice" disabled class="btn btn-outline-primary me-2">
-                    <p class="card-text" th:text="'&#163;'+${user.ethereum/eth.getCurrentPrice()}"></p>
-<!--                    <p class="card-text" th:text="${(user.ethereum/eth.getCurrentPrice())/(user.bitcoin/btc.getCurrentPrice()+user.ethereum/eth.getCurrentPrice()+user.cardano/ada.getCurrentPrice())*100}+'%'"></p>-->
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4 mb-2">
-            <div class="card px-5 py-3 h-100 zoom">
-                <img class="card-img-top w-25 mx-auto" src="https://cryptologos.cc/logos/cardano-ada-logo.svg?v=014" alt="Cardano">
-                <div class="card-body">
-                    <h2 class="card-title">Final Quote: </h2>
-                    <p class="card-title">Select Amount to sell: </p>
-
-                    <input type="number" id="quantity" class="btn btn-outline-primary me-2">
-                    <br>
-                    <p class="card-text">You receive: </p>
-                    <input type="text" id="quote" disabled class="btn btn-outline-primary me-2">
-
-
-                </div>
-                <button type="button" class="btn btn-outline-primary me-2" onclick="function myFunction() {
-                let r = document.getElementById('quantity');
-                let j = document.getElementById('quote').value = r.value/100;
-
-
-                }
-                myFunction()">CONVERT</button>
-
-            </div>
-
-        </div>
-
     </div>
 
-</div>
-    <button type="button" class="btn btn-primary" onclick="function finalizeFunction(){
+    <div class="row mb-3">
+        <div class="col-lg-12">
+            <h2>Exchange rate calculator:</h2>
+            <p>Select Currency</p>
+            <button id="poundBtn" class="btn btn-outline-primary">&#163;</button> <!--£-->
+            <button id="dollarBtn" class="btn btn-outline-primary">$</button> <!--$-->
+            <button id="euroBtn" class="btn btn-outline-primary">&#8364;</button> <!--€-->
+            <input type="hidden" id="selected-fiat" value="GBP">
+        </div>
+    </div>
 
-    }
-       finalizeFunction()"> FINALIZE TRANSACTION </button>
-    <br>
-    <br>
+    <div class="row mb-3">
+        <div class="col-6">
+            <h4 id="calculator-input-title">Value in £</h4>
+            <label id="currencyLabel" for="currency"></label>
+            <div class="input-group">
+                <span id="currency-symbol" class="input-group-text">£</span>
+                <input id="currency" placeholder="£" value="1" type="number" class="form-control"
+                       aria-describedby="currency-symbol">
+            </div>
+
+        </div>
+        <div class="col-6">
+            <h4>Amount in crypto is:</h4>
+            <p id="BTC-calculator"></p>
+            <p id="ETH-calculator"></p>
+            <p id="ADA-calculator"></p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Your fiat assets</h2>
+                    <!--@thymesVar id="user" type="com.crypto.investment.sim.model.User"-->
+                    <p th:text="'GBP: '+${user.GBP}"></p>
+                    <p th:text="'USD: '+${user.USD}"></p>
+                    <p th:text="'EUR: '+${user.EUR}"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Your crypto assets</h2>
+                    <p th:text="'BTC: '+${user.bitcoin}"></p>
+                    <p th:text="'ETH: '+${user.ethereum}"></p>
+                    <p th:text="'ADA: '+${user.cardano}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form th:action="@{/convertRequest}" th:object="${buySellData}" method="post">
+        <div class="row mb-3">
+            <div class="col-12">
+                <h3>Step 1 - Choose what you are converting</h3>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <label class="mb-2" for="convertFrom">I want to convert:</label>
+                        <select name="convertFrom" th:field="*{convertFrom}" id="convertFrom" class="form-control">
+                            <option value="GBP">GBP (pound)</option>
+                            <option value="EUR">EUR (euro)</option>
+                            <option value="BTC">BTC (bitcoin)</option>
+                            <option value="ETH">ETH (ethereum)</option>
+                            <option value="ADA">ADA (cardano)</option>
+                        </select>
+                        <span th:if="${#fields.hasErrors('convertFrom')}" th:errors="*{convertFrom}" class="text-error"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <label class="mb-2" for="convertTo">Into:</label>
+                        <select name="convertTo" th:field="*{convertTo}" id="convertTo" class="form-control">
+                            <option value="USD">USD (dollar)</option>
+                            <option value="EUR">EUR (euro)</option>
+                            <option value="BTC">BTC (bitcoin)</option>
+                            <option value="ETH">ETH (ethereum)</option>
+                            <option value="ADA">ADA (cardano)</option>
+                        </select>
+                        <span th:if="${#fields.hasErrors('convertTo')}" th:errors="*{convertTo}" class="text-error"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3>Step 2 - How much would you like to convert:</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <p id="fromCoinAvailable"></p>
+                        <input type="hidden" id="maxAmount">
+                        <label class="mb-2" for="convertFromAmount">You will sell:</label>
+                        <div class="input-group mb-2">
+                            <span id="convertFromAmount-symbol" class="input-group-text">£</span>
+                            <input id="convertFromAmount" th:field="*{convertFromAmount}" placeholder="£" value="0" step="0.000001" min="0" type="number" class="form-control"
+                                   aria-describedby="currency-symbol">
+                        </div>
+                        <p class="text-error invisible" id="convertFromAmountError">Can't exceed your available balance</p>
+                        <span th:if="${#fields.hasErrors('convertFromAmount')}" th:errors="*{convertFromAmount}" class="text-error"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <p id="toCoinAvailable"></p>
+                        <label class="mb-2" for="convertToAmount">You will receive</label>
+                        <div class="input-group mb-2">
+                            <span id="convertToAmount-symbol" class="input-group-text">£</span>
+                            <input id="convertToAmount" step="0.000001" placeholder="£" value="0" type="number" class="form-control"
+                                   aria-describedby="currency-symbol" disabled readonly th:field="*{estimatedExchange}">
+                        </div>
+                        <span th:if="${#fields.hasErrors('estimatedExchange')}" th:errors="*{estimatedExchange}" class="text-error"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <input type="submit" class="btn btn-primary w-50 mt-3">
+            </div>
+        </div>
+    </form>
+
 </div>
 </body>
 </html>
