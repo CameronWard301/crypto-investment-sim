@@ -32,8 +32,8 @@ public class BuySellController {
     public UserRepository userRepo;
 
     @InitBinder
-    protected void initBinder(WebDataBinder binder){
-        binder.addValidators(new ExchangeValidator(userRepo, coinRepo));
+    protected void initBinder(WebDataBinder binder, HttpSession session){
+        binder.addValidators(new ExchangeValidator(userRepo, coinRepo, session));
     }
 
     @GetMapping("/buySell")
@@ -52,13 +52,22 @@ public class BuySellController {
 
     @PostMapping("/convertRequest")
     public String finalTransaction(@Valid @ModelAttribute BuySellData buySellData, BindingResult result, Model model, HttpSession session) {
-
+        User USER_SESSION = (User) session.getAttribute("USER_SESSION");
         if (result.hasErrors()){
-            User USER_SESSION = (User) session.getAttribute("USER_SESSION");
             model.addAttribute("user", USER_SESSION);
+            this.getLatestCoins(model);
             return "user/buySell";
         }
-        System.out.println(buySellData);
+
+        Optional<Coin> fromCoinObject = coinRepo.findById(buySellData.getConvertFrom());
+        Optional<Coin> toCoinObject = coinRepo.findById(buySellData.getConvertTo());
+
+        if (fromCoinObject.isEmpty() || toCoinObject.isEmpty()) {
+            return "redirect:/buySell";
+        }
+
+        float convertAmount = Float.parseFloat(buySellData.getConvertFromAmount());
+        float exchangedCoin = buySellData.calculateExchange(buySellData.getConvertFrom(), buySellData.getConvertTo(), convertAmount, fromCoinObject.get().getCurrentPrice(), toCoinObject.get().getCurrentPrice());
 
         return "redirect:/buySell";
     }
