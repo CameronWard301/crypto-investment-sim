@@ -238,15 +238,6 @@ $(function () {
             convert_from_amount_error.removeClass("invisible"); //show error
             convert_from_amount_error.addClass("visible");
         }
-        else if ((Number(convert_to_amount_input.val()) === 0)
-            && e.keyCode !== 46 //keycode for delete
-            && e.keyCode !== 8 //keycode for backspace
-        ) {
-            e.preventDefault();
-            convert_from_amount_error.html("Increase the amount so that you don't exchange for 0")
-            convert_from_amount_error.removeClass("invisible"); //show error
-            convert_from_amount_error.addClass("visible");
-        }
         else {
             convert_from_amount_error.removeClass("visible"); //remove error
             convert_from_amount_error.addClass("invisible");
@@ -256,9 +247,12 @@ $(function () {
 
     function calculateExchange(amount, fromCurrency, toCurrency){
         if (fromCurrency === "GBP" || fromCurrency === "USD" || fromCurrency === "EUR"){
-            convert_to_amount_input.val(roundDown(amount*(coinValues[toCurrency]/coinValues[fromCurrency])));
+            convert_to_amount_input.val(amount*(coinValues[toCurrency]/coinValues[fromCurrency]));
         } else {
-            convert_to_amount_input.val(roundDown((amount/coinValues[fromCurrency])*coinValues[toCurrency]));
+            convert_to_amount_input.val((amount/coinValues[fromCurrency])*coinValues[toCurrency]);
+        }
+        if (toCurrency === "GBP" || toCurrency === "USD" || toCurrency === "EUR"){
+            convert_to_amount_input.val(roundDown(convert_to_amount_input.val()))
         }
     }
 
