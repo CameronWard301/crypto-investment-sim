@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 @Service
 public class PortfolioHistory {
 
-    Logger logger = LoggerFactory.getLogger(PortfolioHistory.class);
+    final Logger logger = LoggerFactory.getLogger(PortfolioHistory.class);
 
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
@@ -56,9 +56,9 @@ public class PortfolioHistory {
             float gbp = theUser.getGBP();
             float usd = theUser.getUSD();
             float eur = theUser.getEUR();
-            float btc = theUser.getBitcoin();
-            float eth = theUser.getEthereum();
-            float ada = theUser.getCardano();
+            float btc = theUser.getBTC();
+            float eth = theUser.getETH();
+            float ada = theUser.getADA();
             float total = gbp + usd*USD + eur*EUR + (btc/BTC) + (ada/ADA) + (eth/ETH);
             if (total == 0){
                 continue; //Don't record history if portfolio is 0
