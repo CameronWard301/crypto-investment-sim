@@ -186,17 +186,17 @@ $(function () {
 
     function changeInputCurrency(coin, coin_available, amount_symbol, amount_input){
         if (coin === "GBP"){
-            coin_available.html("Amount available: " + gbp_available)
+            coin_available.html("Amount available: " + (Math.round(gbp_available * 100) / 100).toFixed(2));
             amount_symbol.html("£")
             amount_input.attr("placeholder", "£")
         }
         else if (coin === "USD"){
-            coin_available.html("Amount available: " + usd_available)
+            coin_available.html("Amount available: " + (Math.round(usd_available * 100) / 100).toFixed(2));
             amount_symbol.html("$")
             amount_input.attr("placeholder", "$")
         }
         else if (coin === "EUR"){
-            coin_available.html("Amount available: " + eur_available)
+            coin_available.html("Amount available: " + (Math.round(eur_available * 100) / 100).toFixed(2));
             amount_symbol.html("€")
             amount_input.attr("placeholder", "€")
         }
@@ -253,7 +253,7 @@ $(function () {
             convert_to_amount_input.val((amount/coinValues[fromCurrency])*coinValues[toCurrency]);
         }
         if (toCurrency === "GBP" || toCurrency === "USD" || toCurrency === "EUR"){
-            convert_to_amount_input.val(roundDown(convert_to_amount_input.val()))
+            convert_to_amount_input.val((Math.round(roundDown(convert_to_amount_input.val()) * 100) / 100).toFixed(2));
         }
     }
 
@@ -289,60 +289,60 @@ $(function () {
             if (!fromCoin) {
                 removed_from_values.push({value: "GBP", text:"GBP (pound)"});
                 $("#convertfrom option[value='" + selectedCoinValue + "']").remove();
-                max_amount.val(gbp_available)
             } else {
                 removed_to_values.push({value: "GBP", text:"GBP (pound)"});
                 $("#convertTo option[value='" + selectedCoinValue + "']").remove();
+                max_amount.val(gbp_available)
             }
         } else if (selectedCoinValue === "USD"){
             availableElement.val(usd_available)
             if (!fromCoin) {
                 removed_from_values.push({value: "USD", text:"USD (dollar)"});
                 $("#convertfrom option[value='" + selectedCoinValue + "']").remove();
-                max_amount.val(usd_available)
             } else {
                 removed_to_values.push({value: "USD", text:"USD (dollar)"});
                 $("#convertTo option[value='" + selectedCoinValue + "']").remove();
+                max_amount.val(gbp_available)
             }
         } else if (selectedCoinValue === "EUR") {
             availableElement.val(eur_available)
             if (!fromCoin) {
                 removed_from_values.push({value: "EUR", text:"EUR (euro)"});
                 $("#convertfrom option[value='" + selectedCoinValue + "']").remove();
-                max_amount.val(eur_available)
             } else {
                 removed_to_values.push({value: "EUR", text: "EUR (euro)"});
                 $("#convertTo option[value='" + selectedCoinValue + "']").remove();
+                max_amount.val(gbp_available)
             }
         } else if (selectedCoinValue === "BTC") {
             availableElement.val(btc_available)
             if (!fromCoin) {
                 removed_from_values.push({value: "BTC", text:"BTC (bitcoin)"});
                 $("#convertfrom option[value='" + selectedCoinValue + "']").remove();
-                max_amount.val(btc_available)
             } else {
                 removed_to_values.push({value: "BTC", text: "BTC (bitcoin)"});
                 $("#convertTo option[value='" + selectedCoinValue + "']").remove();
+                max_amount.val(gbp_available)
             }
         } else if (selectedCoinValue === "ETH") {
             availableElement.val(eth_available)
             if (!fromCoin) {
                 removed_from_values.push({value: "ETH", text:"ETH (ethereum)"});
                 $("#convertfrom option[value='" + selectedCoinValue + "']").remove();
-                max_amount.val(eth_available)
             } else{
                 removed_to_values.push({value: "ETH", text: "ETH (ethereum)"});
                 $("#convertTo option[value='" + selectedCoinValue + "']").remove();
+                max_amount.val(gbp_available)
             }
         } else {
             availableElement.val(ada_available)
             if (!fromCoin)  {
                 removed_from_values.push({value: "ADA", text:"ADA (cardano)"});
                 $("#convertfrom option[value='" + selectedCoinValue + "']").remove();
-                max_amount.val(ada_available)
             } else {
                 removed_to_values.push({value: "ADA", text: "ADA (cardano)"});
                 $("#convertTo option[value='" + selectedCoinValue + "']").remove();
+                max_amount.val(gbp_available)
             }
         }
     }
@@ -354,4 +354,7 @@ $(function () {
     changeInputCurrency(convert_from.val(), from_coin_available, convert_from_amount_symbol, convert_from_amount_input)
     changeInputCurrency(convert_to.val(), to_coin_available, convert_to_amount_symbol, convert_to_amount_input)
     calculateExchange(convert_from_amount_input.val(), convert_from.val(), convert_to.val());
+    $('#gbp-asset').html("GBP: "  + (Math.round(gbp_available * 100) / 100).toFixed(2))
+    $('#usd-asset').html("USD: "  + (Math.round(usd_available * 100) / 100).toFixed(2))
+    $('#eur-asset').html("EUR: "  + (Math.round(eur_available * 100) / 100).toFixed(2))
 })
