@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import javax.servlet.http.HttpServletRequest;
 
+@SuppressWarnings("SameReturnValue")
 @Controller
 public class SignupController{
 
@@ -71,9 +71,9 @@ public class SignupController{
         user.setGBP(0);
         user.setEUR(0);
         user.setUSD(0);
-        user.setBitcoin(0);
-        user.setEthereum(0);
-        user.setCardano(0);
+        user.setBTC(0);
+        user.setETH(0);
+        user.setADA(0);
         user.setHashPassword(generatedSecuredPasswordHash);
 
         userRepo.save(user);
