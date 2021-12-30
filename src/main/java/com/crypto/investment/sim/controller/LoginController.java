@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+@SuppressWarnings("SameReturnValue")
 @Controller
 public class LoginController{
 
