@@ -52,17 +52,5 @@ public class CryptoInvestmentSimApplication implements ApplicationRunner, WebMvc
             USD = coinRepo.save(USD);
         }
 
-//        User testUser = new User();
-//        testUser.setFirstName("Josh");
-//        testUser.setLastName("Wilkins");
-//        testUser.setHashPassword("hello");
-//        testUser.setUsername("jrw40");
-//        testUser.setEUR(100);
-//        testUser.setEthereum((float) 56);
-//        testUser.setGBP(300);
-//        testUser.setBitcoin((float) 19);
-//        testUser.setUSD(1400);
-//        testUser.setCardano((float) 9078);
-//        userRepo.save(testUser);
     }
 }
