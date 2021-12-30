@@ -1,5 +1,6 @@
 package com.crypto.investment.sim.model;
 
+@SuppressWarnings("unused")
 public class UserSignUp {
     private String firstName;
     private String lastName;

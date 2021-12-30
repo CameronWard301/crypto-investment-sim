@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 @Service
 public class PortfolioHistory {
 
-    Logger logger = LoggerFactory.getLogger(PortfolioHistory.class);
+    final Logger logger = LoggerFactory.getLogger(PortfolioHistory.class);
 
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
@@ -43,6 +43,7 @@ public class PortfolioHistory {
         Optional<Coin> DbETH = coinRepo.findById("ETH");
 
         if (DbUSD.isEmpty() || DbEUR.isEmpty() || DbBTC.isEmpty() || DbADA.isEmpty() || DbETH.isEmpty()){
+            logger.error("Could not generate user portfolio history, there no coin values in the data base");
             return;
         }
         float USD = DbUSD.get().getCurrentPrice();
@@ -55,10 +56,13 @@ public class PortfolioHistory {
             float gbp = theUser.getGBP();
             float usd = theUser.getUSD();
             float eur = theUser.getEUR();
-            float btc = theUser.getBitcoin();
-            float eth = theUser.getEthereum();
-            float ada = theUser.getCardano();
-            float total = gbp + usd*USD + eur*EUR + btc*BTC + ada*ADA + eth*ETH;
+            float btc = theUser.getBTC();
+            float eth = theUser.getETH();
+            float ada = theUser.getADA();
+            float total = gbp + usd*USD + eur*EUR + (btc/BTC) + (ada/ADA) + (eth/ETH);
+            if (total == 0){
+                continue; //Don't record history if portfolio is 0
+            }
             PortfolioBalance balance = new PortfolioBalance(total);
             List<PortfolioBalance> history = theUser.getPortfolioHistory();
             history.add(balance);

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
+@SuppressWarnings("SameReturnValue")
 @Controller
 public class MainController {
 

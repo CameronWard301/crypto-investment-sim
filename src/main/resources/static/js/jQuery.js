@@ -15,8 +15,23 @@ $(function () {
         'success': function(resp) {
             if(resp) {
                 $('#login-btn').html("Logout").attr("href", "/invalidate/session")
-                console.log("success, logged in")
             }
         }
     });
+
+    setFooterStyle()
+    window.onresize = setFooterStyle;
 });
+
+function setFooterStyle() {
+    const footer = $("#footer");
+    const docHeight = $(window).height();
+    const footerHeight = footer.outerHeight();
+    const footerTop = footer.position().top + footerHeight;
+    if (footerTop < docHeight) {
+        footer.css('margin-top', (docHeight - footerTop) + 'px');
+    } else {
+        footer.css('margin-top', '');
+    }
+    footer.removeClass('invisible');
+}

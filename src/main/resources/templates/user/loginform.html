@@ -9,7 +9,7 @@
 
 <body>
 
-<div class="container">
+<div class="container mb-5">
     <div class="row my-3">
         <div th:class="'p-3 w-100 col-lg-12 ' + ${bannerColor} + ' alert alert-dismissible fade '+ ${hidden}"
              role="alert">
@@ -53,5 +53,8 @@
     </div>
 
 </div>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+
 </body>
 </html>

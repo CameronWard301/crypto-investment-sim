@@ -22,9 +22,9 @@ public class User implements Serializable {
     @JoinColumn
     private List<PortfolioBalance> portfolioHistory;
 
-    private float bitcoin;
-    private float ethereum;
-    private float cardano;
+    private float BTC;
+    private float ETH;
+    private float ADA;
     private float GBP;
     private float USD;
     private float EUR;
@@ -70,28 +70,28 @@ public class User implements Serializable {
         this.hashPassword = hashPassword;
     }
 
-    public float getBitcoin() {
-        return bitcoin;
+    public float getBTC() {
+        return BTC;
     }
 
-    public void setBitcoin(float bitcoin) {
-        this.bitcoin = bitcoin;
+    public void setBTC(float bitcoin) {
+        this.BTC = bitcoin;
     }
 
-    public float getEthereum() {
-        return ethereum;
+    public float getETH() {
+        return ETH;
     }
 
-    public void setEthereum(float ethereum) {
-        this.ethereum = ethereum;
+    public void setETH(float ethereum) {
+        this.ETH = ethereum;
     }
 
-    public float getCardano() {
-        return cardano;
+    public float getADA() {
+        return ADA;
     }
 
-    public void setCardano(float cardano) {
-        this.cardano = cardano;
+    public void setADA(float cardano) {
+        this.ADA = cardano;
     }
 
     public float getGBP() {
