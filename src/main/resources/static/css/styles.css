@@ -22,11 +22,13 @@ html * {
     height: 7vw;
 }
 
+/*noinspection CssUnusedSymbol*/
 .banner-color-green{
     background-color: var(--banner_green);
     border-radius: 6px;
 }
 
+/*noinspection CssUnusedSymbol*/
 .banner-color-red{
     background-color: var(--banner_red);
     border-radius: 6px;
@@ -43,15 +45,6 @@ a {
 
 .card{
     border-color: var(--primary);
-}
-
-.zoom {
-    padding: 1%;
-    transition: transform .2s;
-}
-
-.zoom:hover {
-    transform: scale(1.05); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
 .active{
