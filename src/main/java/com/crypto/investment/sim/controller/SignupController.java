@@ -35,7 +35,7 @@ public class SignupController{
         binder.addValidators(new SignupValidator(userRepo));
     }
 
-    @GetMapping("/sign-up")
+    @GetMapping("/signUp")
     public String SignUpForm(@ModelAttribute UserSignUp userSignUp, Model model) {
         model.addAttribute("userSignUp", new UserSignUp());
         model.addAttribute("captchaMessage", "");

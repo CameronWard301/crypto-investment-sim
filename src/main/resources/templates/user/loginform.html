@@ -44,7 +44,7 @@
                         <button type="submit" class="btn btn-primary w-100 mb-5">Login</button>
                     </form>
                     <p>Don't have an account?
-                        <a th:href="@{/sign-up}">Create one here</a>
+                        <a th:href="@{/signUp}">Create one here</a>
                     </p>
                 </div>
             </div>
@@ -55,6 +55,8 @@
 </div>
 
 <footer th:replace="fragments/footer :: footer"></footer>
+
+<div th:replace="fragments/cookies :: cookies"></div>
 
 </body>
 </html>
