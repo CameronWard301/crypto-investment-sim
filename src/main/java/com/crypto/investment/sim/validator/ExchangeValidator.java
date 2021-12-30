@@ -121,30 +121,16 @@ public class ExchangeValidator implements Validator {
             e.printStackTrace();
         }
 
-        float fromCoinValue = 0;
-        float toCoinValue = 0;
-
         Optional<Coin> fromCoinObject = coinRepo.findById(inputData.getConvertFrom());
-        if (fromCoinObject.isPresent()){
-            fromCoinValue = fromCoinObject.get().getCurrentPrice();
-        } else {
+        if (fromCoinObject.isEmpty()) {
             errors.rejectValue("convertFrom", "", "Could not locate coin in DB please try again later");
         }
-        
+
         Optional<Coin> toCoinObject = coinRepo.findById(inputData.getConvertTo());
-        if (toCoinObject.isPresent()){
-            toCoinValue = toCoinObject.get().getCurrentPrice();
-        } else {
+        if (toCoinObject.isEmpty()) {
             errors.rejectValue("convertTo", "", "Could not locate coin in DB please try again later");
         }
 
-        float calculatedExchange = inputData.calculateExchange(inputData.getConvertFrom(), inputData.getConvertTo(), convertFromAmount, fromCoinValue, toCoinValue);
-
-        if (calculatedExchange != estimatedExchange){
-            session.setAttribute("ESTIMATION_DIFFERENCE", true);
-            session.setAttribute("ESTIMATION", calculatedExchange);
-            System.out.println("ESTIMATED DIFFERENCE!!!" + calculatedExchange + " " + estimatedExchange);
-        }
 
     }
 }
