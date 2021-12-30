@@ -10,7 +10,15 @@
 
 <body>
 <input type="hidden" id="selected" th:value="${selected}">
-<div class="container">
+<div class="container mb-5">
+
+    <div class="row my-3">
+        <div th:class="'p-3 w-100 col-lg-12 ' + ${bannerColor} + ' alert alert-dismissible fade ' + ${hidden}" role="alert">
+            <span><i th:text="${message}"></i></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
     <div class="row mb-3">
         <div class="col-lg-12">
             <h1>Add/Remove Currency</h1>
@@ -51,5 +59,8 @@
     <input type="hidden" id="USD" name="USD" th:value="${USD}"/>
 
 </div>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+
 </body>
 </html>
