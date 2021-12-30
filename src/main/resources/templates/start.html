@@ -18,7 +18,7 @@
                 <div class="card-body">
                     <h2>Getting Started</h2>
                     <p>Sign up to create your account here: </p>
-                    <a class="btn btn-primary" th:href="@{/login}">Sign Up</a>
+                    <a class="btn btn-primary" th:href="@{/signUp}">Sign Up</a>
                 </div>
             </div>
 
@@ -87,6 +87,8 @@
 </div>
 
 <footer th:replace="fragments/footer :: footer"></footer>
+
+<div th:replace="fragments/cookies :: cookies"></div>
 
 </body>
 </html>

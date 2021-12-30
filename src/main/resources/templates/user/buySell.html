@@ -82,10 +82,9 @@
             <div class="card h-100">
                 <div class="card-body">
                     <h2>Your fiat assets</h2>
-                    <!--@thymesVar id="user" type="com.crypto.investment.sim.model.User"-->
-                    <p th:text="'GBP: '+${user.GBP}"></p>
-                    <p th:text="'USD: '+${user.USD}"></p>
-                    <p th:text="'EUR: '+${user.EUR}"></p>
+                    <p id="gbp-asset"></p>
+                    <p id="usd-asset"></p>
+                    <p id="eur-asset"></p>
                 </div>
             </div>
         </div>
@@ -185,6 +184,8 @@
 </div>
 
 <footer th:replace="fragments/footer :: footer"></footer>
+
+<div th:replace="fragments/cookies :: cookies"></div>
 
 </body>
 </html>
