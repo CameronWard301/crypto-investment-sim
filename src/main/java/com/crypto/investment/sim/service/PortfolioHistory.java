@@ -43,7 +43,7 @@ public class PortfolioHistory {
         Optional<Coin> DbETH = coinRepo.findById("ETH");
 
         if (DbUSD.isEmpty() || DbEUR.isEmpty() || DbBTC.isEmpty() || DbADA.isEmpty() || DbETH.isEmpty()){
-            logger.error("Could not generate user portfolio history, there no coin values in the data base");
+            logger.error("Could not generate user portfolio history, they're no coin values in the database");
             return;
         }
         float USD = DbUSD.get().getCurrentPrice();
@@ -60,7 +60,7 @@ public class PortfolioHistory {
             float eth = theUser.getETH();
             float ada = theUser.getADA();
             float total = gbp + usd*USD + eur*EUR + (btc/BTC) + (ada/ADA) + (eth/ETH);
-            if (total == 0){
+            if (Float.isNaN(total) || total == 0){
                 continue; //Don't record history if portfolio is 0
             }
             PortfolioBalance balance = new PortfolioBalance(total);

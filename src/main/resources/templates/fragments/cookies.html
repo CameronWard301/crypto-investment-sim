@@ -1,0 +1,24 @@
+<div th:fragment="cookies">
+    <div class="container">
+        <div class="row">
+            <div class="alert alert-dismissible cookiealert" role="alert">
+                <div class="cookiealert-container col-lg-10 mx-auto">
+                    <p >Do you like cookies? &#x1F36A; By continuing to browse or by clicking ‘Accept’, you agree to the storing
+                        of cookies on your device to enable site functionality. To learn more
+                        about how this site uses cookies, please see the
+                        <a th:href="@{docs/CookiePolicy-Crypto.Media-Cam.com.pdf}" target="_blank" rel="noopener">Cookie Policy</a> and
+                        <a th:href="@{/docs/PrivacyPolicy-Crypto.Media-Cam.com.pdf}" target="_blank" rel="noopener">Privacy Policy</a></p>
+
+                    <button type="button" class="btn btn-primary acceptcookies ml-0 px-5" aria-label="Close">
+                        Accept
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- From Local -->
+    <script th:src="@{js/cookieAlert.js}"></script>
+    <!-- From CDN -->
+    <script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js"></script>
+</div>
