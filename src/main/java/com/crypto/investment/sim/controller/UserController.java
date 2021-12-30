@@ -44,9 +44,9 @@ public class UserController implements Serializable {
         history.put("history", theUser.get().getPortfolioHistory()); //Add the history to a JSON object
 
         List<Coin> coinValues = this.getLatestCoins();
-        float BTCAmount = theUser.get().getBitcoin();
-        float ETHAmount = theUser.get().getEthereum();
-        float ADAAmount = theUser.get().getCardano();
+        float BTCAmount = theUser.get().getBTC();
+        float ETHAmount = theUser.get().getETH();
+        float ADAAmount = theUser.get().getADA();
         float GBPAmount = theUser.get().getGBP();
         float USDAmount = theUser.get().getUSD();
         float EURAmount = theUser.get().getEUR();
@@ -117,9 +117,9 @@ public class UserController implements Serializable {
         theUser.setGBP(0);
         theUser.setEUR(0);
         theUser.setUSD(0);
-        theUser.setCardano(0);
-        theUser.setBitcoin(0);
-        theUser.setEthereum(0);
+        theUser.setADA(0);
+        theUser.setBTC(0);
+        theUser.setETH(0);
         theUser.removePortfolioHistory();
 
         userRepo.save(theUser);
