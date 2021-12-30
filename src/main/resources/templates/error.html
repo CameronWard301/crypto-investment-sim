@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <object th:include="fragments/head :: head" th:remove="tag"></object>
+    <meta charset="UTF-8">
+    <title th:text="${errorTitle}"></title>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row min-vh-100">
+        <div class="col-12 my-auto">
+            <div class="card text-center">
+                <img src="../static/images/cryptocurrency-logo.svg" th:src="@{images/computer-error.svg}" aria-label="Crypto Sim Error" class="bi me-2 filter-primary" alt="Crypto Sim Logo" height="100px"/>
+                <div class="card-body">
+                    <h1 class="card-title" th:utext="${errorHeading}">Sorry, we couldn't find the page you were looking for :(</h1>
+                    <p class="card-text">Please click the button below to go back home</p>
+                    <a th:href="@{/invalidate/session}" class="btn btn-primary w-50">Go Home</a>
+                    <p class="mt-4 cart-text">If you keep experiencing this issue, please fill out a bug report on our GitHub Page:</p>
+                    <a href="https://github.com/CameronWard301/crypto-investment-sim/issues" target="_blank" rel="nofollow" class="btn btn-outline-primary w-50">Report Bug</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
