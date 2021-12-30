@@ -8,7 +8,7 @@
 <header th:replace="fragments/header :: header"></header>
 
 <body>
-<div class="container">
+<div class="container mb-5">
     <div class="row">
         <div class="col-lg-12 mb-5">
             <h1 class="text-primary fw-bold text-center">Welcome to Crypto Currency Simulator</h1>
@@ -27,7 +27,7 @@
     <div class="row">
         <div class="col-lg-4 mb-5">
             <div class="card h-100">
-                <img class="card-img-top w-25 mx-auto mt-3" src="../static/images/portfolio.svg" th:src="@{/images/portfolio.svg}" alt="Portfolio"/>
+                <img class="w-25 mx-auto mt-3" src="../static/images/portfolio.svg" th:src="@{/images/portfolio.svg}" alt="Portfolio"/>
                 <div class="card-body">
                     <h2 class="big-number text-center fw-bold">1</h2>
                     <h2 class="text-center">Add Fiat</h2>
@@ -42,7 +42,7 @@
         </div>
         <div class="col-lg-4 mb-5">
             <div class="card h-100">
-                <img class="card-img-top w-25 mx-auto mt-3" src="../static/images/global-markets.svg" th:src="@{/images/global-markets.svg}" alt="Portfolio">
+                <img class="w-25 mx-auto mt-3" src="../static/images/global-markets.svg" th:src="@{/images/global-markets.svg}" alt="Portfolio">
                 <div class="card-body">
                     <h2 class="big-number text-center fw-bold">2</h2>
                     <h2 class="text-center">Monitor the markets!</h2>
@@ -72,7 +72,7 @@
         </div>
         <div class="col-lg-4 mb-5">
             <div class="card h-100">
-                <img class="card-img-top w-25 mx-auto mt-3" src="../static/images/finances.svg" th:src="@{/images/finances.svg}" alt="Portfolio">
+                <img class="w-25 mx-auto mt-3" src="../static/images/finances.svg" th:src="@{/images/finances.svg}" alt="Portfolio">
                 <div class="card-body">
                     <h2 class="big-number text-center fw-bold">3</h2>
                     <h2 class="text-center">Trade Trade Trade</h2>
@@ -84,7 +84,9 @@
             </div>
         </div>
     </div>
-
 </div>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+
 </body>
 </html>
