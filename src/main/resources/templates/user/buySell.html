@@ -4,7 +4,7 @@
 <head>
     <object th:include="fragments/head :: head" th:remove="tag"></object>
     <title>Crypto Sim | Crypto Exchange</title>
-<!--    <script type="text/javascript" src="../../static/js/buy-sell.js" th:src="@{/js/buy-sell.js}"></script>-->
+    <script type="text/javascript" src="../../static/js/buy-sell.js" th:src="@{/js/buy-sell.js}"></script>
 </head>
 
 <header th:replace="fragments/header :: header"></header>
@@ -26,20 +26,28 @@
 <input type="hidden" id="gbp_available" th:value="${user.GBP}">
 <input type="hidden" id="usd_available" th:value="${user.USD}">
 <input type="hidden" id="eur_available" th:value="${user.EUR}">
-<input type="hidden" id="btc_available" th:value="${user.bitcoin}">
-<input type="hidden" id="eth_available" th:value="${user.ethereum}">
-<input type="hidden" id="ada_available" th:value="${user.cardano}">
+<input type="hidden" id="btc_available" th:value="${user.BTC}">
+<input type="hidden" id="eth_available" th:value="${user.ETH}">
+<input type="hidden" id="ada_available" th:value="${user.ADA}">
 
 
-<div class="container">
+<div class="container mb-5">
 
-    <div class="row">
+    <div class="row my-3">
+        <div th:class="'p-3 w-100 col-lg-12 ' + ${bannerColor} + ' alert alert-dismissible fade '+ ${hidden}"
+             role="alert">
+            <span><i th:text="${message}"></i></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <div class="row mb-5">
         <div class="col-lg-12">
             <h1>Buy or exchange crypto</h1>
         </div>
     </div>
 
-    <div class="row mb-3">
+    <div class="row mb-5">
         <div class="col-lg-12">
             <h2>Exchange rate calculator:</h2>
             <p>Select Currency</p>
@@ -50,7 +58,7 @@
         </div>
     </div>
 
-    <div class="row mb-3">
+    <div class="row mb-5">
         <div class="col-6">
             <h4 id="calculator-input-title">Value in £</h4>
             <label id="currencyLabel" for="currency"></label>
@@ -69,10 +77,9 @@
         </div>
     </div>
 
-    <div class="row mb-3">
-
-        <div class="col-6">
-            <div class="card">
+    <div class="row mb-5">
+        <div class="col-12 col-sm-6 mb-3 mb-sm-0">
+            <div class="card h-100">
                 <div class="card-body">
                     <h2>Your fiat assets</h2>
                     <!--@thymesVar id="user" type="com.crypto.investment.sim.model.User"-->
@@ -82,29 +89,30 @@
                 </div>
             </div>
         </div>
-        <div class="col-6">
-            <div class="card">
+        <div class="col-12 col-sm-6">
+            <div class="card h-100">
                 <div class="card-body">
                     <h2>Your crypto assets</h2>
-                    <p th:text="'BTC: '+${user.bitcoin}"></p>
-                    <p th:text="'ETH: '+${user.ethereum}"></p>
-                    <p th:text="'ADA: '+${user.cardano}"></p>
+                    <p th:text="'BTC: '+${user.BTC}"></p>
+                    <p th:text="'ETH: '+${user.ETH}"></p>
+                    <p th:text="'ADA: '+${user.ADA}"></p>
                 </div>
             </div>
         </div>
     </div>
 
     <form th:action="@{/convertRequest}" th:object="${buySellData}" method="post">
-        <div class="row mb-3">
-            <div class="col-12">
+        <div class="row mb-5">
+            <div class="col-12 mb-1">
                 <h3>Step 1 - Choose what you are converting</h3>
             </div>
-            <div class="col-6">
-                <div class="card">
+            <div class="col-12 col-sm-6 mb-3 mb-sm-0">
+                <div class="card h-100">
                     <div class="card-body">
                         <label class="mb-2" for="convertFrom">I want to convert:</label>
                         <select name="convertFrom" th:field="*{convertFrom}" id="convertFrom" class="form-control">
                             <option value="GBP">GBP (pound)</option>
+                            <option value="USD">USD (dollar)</option>
                             <option value="EUR">EUR (euro)</option>
                             <option value="BTC">BTC (bitcoin)</option>
                             <option value="ETH">ETH (ethereum)</option>
@@ -114,11 +122,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6">
-                <div class="card">
+            <div class="col-12 col-sm-6">
+                <div class="card h-100">
                     <div class="card-body">
                         <label class="mb-2" for="convertTo">Into:</label>
                         <select name="convertTo" th:field="*{convertTo}" id="convertTo" class="form-control">
+                            <option value="GBP">GBP (pound)</option>
                             <option value="USD">USD (dollar)</option>
                             <option value="EUR">EUR (euro)</option>
                             <option value="BTC">BTC (bitcoin)</option>
@@ -131,12 +140,12 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 mb-1">
                 <h3>Step 2 - How much would you like to convert:</h3>
             </div>
         </div>
-        <div class="row">
-            <div class="col-6">
+        <div class="row mb-5">
+            <div class="col-12 col-sm-6 mb-3 mb-sm-0">
                 <div class="card h-100">
                     <div class="card-body">
                         <p id="fromCoinAvailable"></p>
@@ -144,7 +153,7 @@
                         <label class="mb-2" for="convertFromAmount">You will sell:</label>
                         <div class="input-group mb-2">
                             <span id="convertFromAmount-symbol" class="input-group-text">£</span>
-                            <input id="convertFromAmount" th:field="*{convertFromAmount}" placeholder="£" value="0" step="0.000001" min="0" type="number" class="form-control"
+                            <input id="convertFromAmount" th:field="*{convertFromAmount}" placeholder="£" value="0" step="0.0000001" min="0" type="number" class="form-control"
                                    aria-describedby="currency-symbol">
                         </div>
                         <p class="text-error invisible" id="convertFromAmountError">Can't exceed your available balance</p>
@@ -152,26 +161,30 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-sm-6">
                 <div class="card h-100">
                     <div class="card-body">
                         <p id="toCoinAvailable"></p>
                         <label class="mb-2" for="convertToAmount">You will receive</label>
                         <div class="input-group mb-2">
                             <span id="convertToAmount-symbol" class="input-group-text">£</span>
-                            <input id="convertToAmount" step="0.000001" placeholder="£" value="0" type="number" class="form-control"
-                                   aria-describedby="currency-symbol" disabled readonly th:field="*{estimatedExchange}">
+                            <input id="convertToAmount" step="0.000001" placeholder="£" type="number" class="form-control cursor-not-allowed"
+                                   aria-describedby="currency-symbol" readonly th:field="*{estimatedExchange}">
                         </div>
+                        <p class="text-error invisible" id="convertToAmountError">Can't exceed your available balance</p>
                         <span th:if="${#fields.hasErrors('estimatedExchange')}" th:errors="*{estimatedExchange}" class="text-error"></span>
                     </div>
                 </div>
             </div>
-            <div class="col-12">
-                <input type="submit" class="btn btn-primary w-50 mt-3">
+            <div class="col-12 d-flex d-sm-inline">
+                <input type="submit" class="btn btn-primary w-50 mt-3 mx-auto">
             </div>
         </div>
     </form>
 
 </div>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+
 </body>
 </html>
