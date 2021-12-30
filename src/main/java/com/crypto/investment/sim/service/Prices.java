@@ -24,7 +24,7 @@ import static com.crypto.investment.sim.CryptoInvestmentSimApplication.*;
 @Service
 public class Prices {
 
-    Logger logger = LoggerFactory.getLogger(Prices.class);
+    final Logger logger = LoggerFactory.getLogger(Prices.class);
 
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
