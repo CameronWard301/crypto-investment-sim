@@ -35,6 +35,6 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
             model.addAttribute("errorTitle", "Crypto Sim | Unknown Error");
             model.addAttribute("errorHeading", "Oops! Something went wrong.");
         }
-    return "/error";
+    return "error";
     }
 }
