@@ -1,9 +1,10 @@
 <header th:fragment="header" class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between p-3 mb-4 border-bottom">
-    <div  class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+
+    <div  class="align-items-center col-12 col-lg-3 mb-2 mb-md-0 text-dark text-center text-decoration-none">
         <a th:href="@{/}"><img src="../../static/images/cryptocurrency-logo.svg" th:src="@{images/cryptocurrency-logo.svg}" aria-label="Crypto Sim Logo" class="bi me-2" width="80" height="64" alt="Crypto Sim Logo"/></a>
     </div>
 
-    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+    <ul class="nav col-12 col-lg-auto mb-2 justify-content-center mb-md-0">
         <li><a th:href="@{/}" class="nav-link px-2 link-dark">Home</a></li>
         <li><a th:href="@{/markets}" class="nav-link px-2 link-dark">Markets</a></li>
         <li><a th:href="@{/buySell}" class="nav-link px-2 link-dark">Buy/Sell</a></li>
@@ -11,7 +12,7 @@
         <li><a th:href="@{/portfolio}" class="nav-link px-2 link-dark">Your Portfolio</a></li>
     </ul>
 
-    <div class="col-md-3 text-end">
+    <div class="col-12 col-lg-3 text-center text-end">
         <a id="login-btn" class="btn btn-outline-primary me-2" th:href="@{/login}">Login</a>
         <a th:href="@{/signUp}" class="btn btn-primary">Sign-up</a>
     </div>

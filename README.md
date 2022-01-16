@@ -1,7 +1,22 @@
 # Crypto Currency Investment Simulator
 
 This is a simulator that lets you practice investing in Bitcoin, Ethereum, and Cardano with Dollars, Pounds and Euros.
-You can track your progress on the portfolio page to see how well your investment is doing
+You can track your progress on the portfolio page to see how well your investment is doing. You can see a live version of the site here:
+https://crypto.media-cam.com/
+
+## Highlighted Features:
+
+### Practice trading with some of the top 3 cryptos:
+<img alt="Bitcoin Ethereum Cardano" src=https://crypto.media-cam.com/images/crypto.JPG width="100%">
+
+### Track your progress on the portfolio page:
+![Portfolio Progress](https://crypto.media-cam.com/images/portfolio.JPG)
+
+### Realtime Market Data
+![Market Data](https://crypto.media-cam.com/images/markets.JPG)
+
+### Easy conversion calculator and buy/sell process
+![Converting Crypto page](https://crypto.media-cam.com/images/conversion.JPG)
 
 ## Prerequisites:
 
